@@ -2,6 +2,7 @@ package DB;
 
 import Model.Category;
 import Model.Event;
+import Model.User;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -54,6 +55,11 @@ public class DBManager {
         return users;
 
     }
+
+//    public User getUserInfo (String userId){
+//
+//        return null;
+//    }
 
 //    public void createEvent(String username, String title, Date publishDate, int updateID) {
 //
