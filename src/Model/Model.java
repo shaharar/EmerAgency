@@ -2,18 +2,21 @@ package Model;
 
 import DB.DBManager;
 import View.View;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import Controller.Controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 
 public class Model implements Observable {
 
     private DBManager dbManager;
+    static int eventID = 0;
 
     public Model(Controller controller)
     {
@@ -41,11 +44,17 @@ public class Model implements Observable {
         return users;
     }
 
-//    public void createEvent(String username, String title, Date publishDate, int updateID) {
-//
-//    }
-//
-    public String getFirstUpdate(int eventId) throws ParseException {
+    public boolean createEvent(Event event) {
+        event.setId(eventID);
+        event.setStatus(EventStatus.IN_TREATMENT);
+        if (dbManager.addEvent(event) && dbManager.addCategoriesOfEvent(event) && dbManager.addResponsiblesOfEvent(event)){
+            eventID ++;
+            return true;
+        }
+        return false;
+    }
+
+    public Update getFirstUpdate(int eventId) throws ParseException {
         Event e = getEvent(eventId);
         return e.getFirstUpdate();
     }
