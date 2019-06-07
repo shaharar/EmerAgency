@@ -1,21 +1,26 @@
 package Model;
 
 import DB.DBManager;
+import View.WebsiteView;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-
+import Controller.Controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+
 public class Model implements Observable {
 
     private DBManager dbManager;
+    private Controller controller;
 
-    public Model() {
+    public Model(Controller controller)
+    {
         this.dbManager = new DBManager();
+        this.controller=controller;
     }
 
     @Override
@@ -64,10 +69,18 @@ public class Model implements Observable {
 //
 //    }
 
+    public boolean login(String username, String password) {
+
+        return false;
+    }
+
+
 
 
     public static void main(String[] args) throws ParseException {
-        Model m = new Model();
+        WebsiteView websit=new WebsiteView();
+        Controller controller=new Controller(websit);
+        Model m = new Model(controller);
         ArrayList<String> categories = m.getAllCategories();
         ArrayList<String> firemen = m.getUsersByOrganization("FD");
         ArrayList<String> events = m.getEventsByCategory("fire");
