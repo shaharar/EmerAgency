@@ -58,14 +58,7 @@ public class DBManager {
 //        return null;
 //    }
 
-//    public void createEvent(String username, String title, Date publishDate, int updateID) {
-//
-//    }
-//
-//    public String getFirstUpdate() {
-//
-//    }
-//
+
     public ArrayList<String> getEventsByCategory (String categoryName) {
         ArrayList<String> events = new ArrayList<>();
         String sql = "SELECT id FROM Events WHERE category= '" + categoryName + "'";
@@ -99,7 +92,7 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery(sql)) {
             ArrayList<Category> categories = getCategoriesOfEvent(eventID);
             ArrayList<SecurityForceUser> responsibles = getResponsiblesOfEvent(eventID);
-            Update firstUp = getUpdate(rs.getInt("firstUpdate"));
+            Update firstUp = getUpdate(rs.getString("firstUpdate"));
             Event event = new Event(rs.getInt("id"), rs.getString("title"), categories, rs.getString("date"),
                     rs.getString("postedBy"), firstUp, rs.getString("status"), responsibles);
             return event;
@@ -109,8 +102,8 @@ public class DBManager {
         return null;
     }
 
-    private Update getUpdate(int firstUpdate) {
-        String sql = "SELECT * FROM Updates WHERE id= '" + firstUpdate + "'";
+    private Update getUpdate(String firstUpdate) {
+        String sql = "SELECT * FROM Updates WHERE content= '" + firstUpdate + "'";
         try (Connection conn = this.connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
