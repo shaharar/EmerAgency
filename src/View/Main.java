@@ -10,27 +10,18 @@ import Controller.Controller;
 
 public class Main extends Application {
 
-    private WebsiteView website;
+    private View view;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            primaryStage.setTitle("Welcome to EmerAgency");
-            Parent root = fxmlLoader.load(getClass().getResource("website.fxml").openStream());
-            Scene scene = new Scene(root, 700.0, 700.0);
-            primaryStage.setScene(scene);
-            website = fxmlLoader.getController();
-            website.setMainStage(primaryStage);
-            Controller con = new Controller(website);
-            View Main_control = fxmlLoader.getController();
-            Main_control.setController(con);
-            primaryStage.show();
-
-        }
-        catch (Exception e){
-
-        }
-
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getClassLoader().getResource("website.fxml").openStream());
+        primaryStage.setTitle("Welcome to EmerAgency");
+        Scene scene = new Scene(root, 640, 480);
+        primaryStage.setScene(scene);
+        view = fxmlLoader.getController();
+        view.setMainStage(primaryStage);
+        Controller con = new Controller(view);
+        primaryStage.show();
     }
 
 

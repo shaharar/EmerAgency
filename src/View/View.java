@@ -46,7 +46,7 @@ public class View implements Observer {
 
     public void setController(Controller controller){
         this.controller = controller;
-        this.categotyOptions(controller.getCategories());
+        this.categoryOptions(controller.getCategories());
     }
 
     public void ChangeScene(String fxml) {
@@ -113,7 +113,7 @@ public class View implements Observer {
         controller.edit(titleEvent.getText(), firstUpdate.getText(), newContent.getText());
         showAlert("edit was successful");
     }
-    public void categotyOptions(HashSet<String> categories){
+    public void categoryOptions(HashSet<String> categories){
         categoryOptions = new ArrayList<>();
         for (String category : categories)
             categoryOptions.add(new CheckMenuItem(category));

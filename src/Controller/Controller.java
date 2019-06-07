@@ -2,8 +2,6 @@ package Controller;
 
 import Model.Model;
 import View.View;
-import View.WebsiteView;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
@@ -22,9 +20,9 @@ public class Controller implements Observable, Observer {
     public HashSet<String> categories;
 
 
-    public Controller(WebsiteView website) {
+    public Controller(View view) {
         this.model = new Model(this);
-        this.view = website;
+        this.view = view;
     }
 
     public HashSet<String> getCategories() {

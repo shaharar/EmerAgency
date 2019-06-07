@@ -1,14 +1,13 @@
 package Model;
 
 import DB.DBManager;
-import View.WebsiteView;
+import View.View;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import Controller.Controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 
@@ -78,8 +77,8 @@ public class Model implements Observable {
 
 
     public static void main(String[] args) throws ParseException {
-        WebsiteView websit=new WebsiteView();
-        Controller controller=new Controller(websit);
+        View view = new View();
+        Controller controller=new Controller(view);
         Model m = new Model(controller);
         ArrayList<String> categories = m.getAllCategories();
         ArrayList<String> firemen = m.getUsersByOrganization("FD");
