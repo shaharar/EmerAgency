@@ -52,7 +52,6 @@ public class DBManager {
             System.out.println(e.getMessage());
         }
         return users;
-
     }
 
 //    public void createEvent(String username, String title, Date publishDate, int updateID) {

@@ -29,8 +29,6 @@ public class View implements Observer {
     static Stage MainStage;
     Stage stage;
 
-
-
     @Override
     public void update(Observable o, Object arg) {
 

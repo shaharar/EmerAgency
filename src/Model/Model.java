@@ -14,12 +14,10 @@ import java.util.Locale;
 public class Model implements Observable {
 
     private DBManager dbManager;
-    private Controller controller;
 
     public Model(Controller controller)
     {
         this.dbManager = new DBManager();
-        this.controller=controller;
     }
 
     @Override

@@ -16,13 +16,12 @@ import java.util.Observer;
 public class Controller implements Observable, Observer {
 
     private Model model;
-    private View view;
+
     public HashSet<String> categories;
 
 
     public Controller(View view) {
         this.model = new Model(this);
-        this.view = view;
     }
 
     public HashSet<String> getCategories() {
