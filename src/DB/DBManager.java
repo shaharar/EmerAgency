@@ -41,12 +41,12 @@ public class DBManager {
 
     public ArrayList<String> getUsersByOrganization(String organization) {
         ArrayList<String> users = new ArrayList<>();
-        String sql = "SELECT userId FROM Users WHERE organization= '" + organization + "'";
+        String sql = "SELECT username FROM Users WHERE organization= '" + organization + "'";
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()){
-                users.add(rs.getString("userId"));
+                users.add(rs.getString("username"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
