@@ -1,6 +1,10 @@
 package DB;
 
+import Model.Category;
+import Model.Event;
+
 import java.sql.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -73,11 +77,34 @@ public class DBManager {
         }
         return events;
     }
-//
-//    public String[] getEvent (String eventID) {
-//
-//    }
-//
+    public Category getCategory (String topic){
+        String sql = "SELECT * FROM Categories WHERE name= '" + topic + "'";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            Category c = new Category(rs.getInt("id"), rs.getString("name"));
+            return c;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    public Event getEvent (int eventID) throws ParseException {
+        String sql = "SELECT * FROM Events WHERE id= " + eventID;
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            Category c = getCategory(rs.getString("category"));
+            Event event = new Event(rs.getInt("id"), rs.getString("title"), c,
+                     rs.getString("date"), rs.getString("postedBy"),
+                     rs.getString("update"), rs.getString("status"));
+            return event;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 //    public String getPermissionOfEvent (String username, String eventID) {
 //
 //    }

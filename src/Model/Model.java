@@ -4,8 +4,11 @@ import DB.DBManager;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class Model implements Observable {
 
@@ -40,18 +43,19 @@ public class Model implements Observable {
 //
 //    }
 //
-//    public String getFirstUpdate() {
-//
-//    }
-//
+    public String getFirstUpdate(int eventId) throws ParseException {
+        Event e = getEvent(eventId);
+        return e.getFirstUpdate();
+    }
+
     public ArrayList<String> getEventsByCategory (String categoryName) {
         return dbManager.getEventsByCategory(categoryName);
     }
-//
-//    public String[] getEvent (String eventID) {
-//
-//    }
-//
+
+    public Event getEvent (int eventID) throws ParseException {
+        return dbManager.getEvent(eventID);
+    }
+
 //    public String getPermissionOfEvent (String username, String eventID) {
 //
 //    }
@@ -62,7 +66,7 @@ public class Model implements Observable {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Model m = new Model();
         ArrayList<String> categories = m.getAllCategories();
         ArrayList<String> firemen = m.getUsersByOrganization("FD");
@@ -70,5 +74,12 @@ public class Model implements Observable {
         for (String e: events) {
             System.out.println(e);
         }
+        Event e = m.getEvent(1);
+        System.out.println(e.getTitle());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        System.out.println(formatter.format(e.getDate()));
+
+        System.out.println(m.getFirstUpdate(1));
+
     }
 }
