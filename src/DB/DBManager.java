@@ -103,7 +103,7 @@ public class DBManager {
             Category c = getCategory(rs.getString("category"));
             Event event = new Event(rs.getInt("id"), rs.getString("title"), c,
                      rs.getString("date"), rs.getString("postedBy"),
-                     rs.getString("update"), rs.getString("status"));
+                     rs.getString("firstUpdate"), rs.getString("status"));
             return event;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
