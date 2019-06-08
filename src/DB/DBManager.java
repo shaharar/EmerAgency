@@ -5,7 +5,6 @@ import Model.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DBManager {
 
@@ -59,32 +58,21 @@ public class DBManager {
 //    }
 
 
-    public ArrayList<String> getEventsByCategory (String categoryName) {
-        ArrayList<String> events = new ArrayList<>();
-        String sql = "SELECT id FROM Events WHERE category= '" + categoryName + "'";
+    public ArrayList<Integer> getEventsByCategory (String categoryName) {
+        ArrayList<Integer> events = new ArrayList<>();
+        String sql = "SELECT eventId FROM CategoriesOfEvent WHERE category= '" + categoryName + "'";
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                events.add(rs.getString("id"));
+                events.add(rs.getInt("eventId"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return events;
     }
-    public Category getCategory (String topic){
-        String sql = "SELECT * FROM Categories WHERE name= '" + topic + "'";
-        try (Connection conn = this.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            Category c = new Category(rs.getInt("id"), rs.getString("name"));
-            return c;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
+
     public Event getEvent (int eventID) throws ParseException {
         String sql = "SELECT * FROM Events WHERE id= " + eventID;
         try (Connection conn = this.connect();
@@ -93,7 +81,7 @@ public class DBManager {
             ArrayList<Category> categories = getCategoriesOfEvent(eventID);
             ArrayList<SecurityForceUser> responsibles = getResponsiblesOfEvent(eventID);
             Update firstUp = getUpdate(rs.getString("firstUpdate"));
-            Event event = new Event(rs.getInt("id"), rs.getString("title"), categories, rs.getString("date"),
+            Event event = new Event(rs.getInt("id"), rs.getString("title"), categories, rs.getString("publishDate"),
                     rs.getString("postedBy"), firstUp, rs.getString("status"), responsibles);
             return event;
         } catch (SQLException e) {
@@ -107,7 +95,9 @@ public class DBManager {
         try (Connection conn = this.connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
-            Update up = new Update(rs.getInt("id"), rs.getString("content"), rs.getInt("eventId"), rs.getString("username"),rs.getInt("orderId"), rs.getString("publishDate"));
+            Update up = new Update(rs.getString("content"), rs.getInt("eventId"), rs.getString("username"), rs.getString("publishDate"));
+            up.setOrderId(rs.getInt("orderId"));
+            up.setLastUpdate(rs.getString("lastUpdate"));
             return up;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -116,22 +106,46 @@ public class DBManager {
     }
 
     private ArrayList<SecurityForceUser> getResponsiblesOfEvent(int eventID) {
-        return new ArrayList<>();
+        ArrayList<SecurityForceUser> responsibleUsers = new ArrayList<>();
+        String sql = "SELECT * FROM ResponsiblesOfEvent WHERE eventId= '" + eventID + "'";
+        try (Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                responsibleUsers.add(new SecurityForceUser(rs.getString("username"),new Organization(rs.getString("organization"))));
+            }
+            return responsibleUsers;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     private ArrayList<Category> getCategoriesOfEvent(int eventID) {
-        return new ArrayList<>();
+        ArrayList<Category> categories = new ArrayList<>();
+        String sql = "SELECT * FROM CategoriesOfEvent WHERE eventId= '" + eventID + "'";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                categories.add(new Category(rs.getString("category")));
+            }
+            return categories;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public boolean addEvent(Event event) {
-        String sql = "INSERT INTO Events(eventId,title,publishDate,postedBy,firstUpdate,status) VALUES(?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Events(id,title,publishDate,postedBy,firstUpdate,status) VALUES(?,?,?,?,?,?)";
         try (Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, event.getId());
             pstmt.setString(2, event.getTitle());
-            pstmt.setDate(3, (java.sql.Date) event.getDate());
+            pstmt.setString(3, event.getDate().toString());
             pstmt.setString(4, event.getPostedBy());
-            pstmt.setInt(5, event.getFirstUpdate().getID());
+            pstmt.setString(5, event.getFirstUpdate().getContent());
             pstmt.setString(6, event.getStatus().toString());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -143,11 +157,11 @@ public class DBManager {
 
     public boolean addCategoriesOfEvent(Event event) {
         for (Category cat : event.getCategories()) {
-            String sql = "INSERT INTO CategoriesOfEvent(eventId,categoryId) VALUES(?,?)";
+            String sql = "INSERT INTO CategoriesOfEvent(eventId,category) VALUES(?,?)";
             try (Connection conn = this.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, event.getId());
-                pstmt.setInt(2, cat.getId());
+                pstmt.setString(2, cat.getTopic());
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -159,7 +173,7 @@ public class DBManager {
 
     public boolean addResponsiblesOfEvent(Event event) {
         for (SecurityForceUser sfUser : event.getResponsibleUsers()) {
-            String sql = "INSERT INTO ResponsiblessOfEvent(eventId,username,organization) VALUES(?,?,?)";
+            String sql = "INSERT INTO ResponsiblesOfEvent(eventId,username,organization) VALUES(?,?,?)";
             try (Connection conn = this.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, event.getId());
@@ -174,13 +188,83 @@ public class DBManager {
         return true;
     }
 
-//    public String getPermissionOfEvent (String username, String eventID) {
-//
-//    }
-//
-//    public String createUpdate (String username, String eventInfo, Date updateDate) {
-//
-//    }
+    public ArrayList<Permission> getPermissionsOfEvent (String username, int eventID) {
+        ArrayList<Permission> permissions = new ArrayList<>();
+        String sql = "SELECT * FROM Permissions WHERE username= '" + username + "' and eventId= '" + eventID + "'";
+        try (Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                permissions.add(new Permission(rs.getString("username"),rs.getInt("eventId"),rs.getString("permission")));
+            }
+            return permissions;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
+    public boolean addUpdate(Update update) {
+        String sql = "INSERT INTO Updates(content,username,eventId,orderId,publishDate,lastUpdate) VALUES(?,?,?,?,?,?)";
+        try (Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, update.getContent());
+            pstmt.setString(2, update.getUsername());
+            pstmt.setInt(3, update.getEventId());
+            pstmt.setInt(4, (update.getOrderId()));
+            pstmt.setString(5, update.getPublishDate().toString());
+            pstmt.setString(6, update.getLastUpdate().getContent());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public String[] getLastUpdate(int eventId) {
+        String[] updateInfo = new String[2];
+        String sql = "SELECT MAX(orderId) as maxOrder FROM Updates WHERE eventId= '" + eventId + "'";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            updateInfo[0] = "" + rs.getInt("maxOrder");
+            updateInfo[1] = rs.getString("content");
+            return updateInfo;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+
+    public Category getCategory (String topic){
+        String sql = "SELECT * FROM Categories WHERE name= '" + topic + "'";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            Category c = new Category(rs.getString("name"));
+            return c;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean login(String username, String password) {
+        String sql = "SELECT * FROM Users WHERE username= '" + username + "'";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if(rs.next()){
+                if(password.equals(rs.getString("password"))){
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 
 }

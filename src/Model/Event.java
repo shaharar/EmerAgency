@@ -19,7 +19,19 @@ public class Event {
 
     private Permission[] permissions;
 
-    public Event(int id, String title, ArrayList<Category> categories, String date, String postedBy, Update firstUpdate, String status, ArrayList<SecurityForceUser> responsibleUsers) throws ParseException {
+    public Event(String title, ArrayList<Category> categories, String date, String postedBy, Update firstUpdate, ArrayList<SecurityForceUser> responsibleUsers) throws ParseException {
+        this.title = title;
+        this.categories = categories;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date d = formatter.parse(date);
+        this.date = d;
+        this.postedBy = postedBy;
+        this.firstUpdate = firstUpdate;
+        this.status = EventStatus.IN_TREATMENT;
+        this.responsibleUsers = responsibleUsers;
+    }
+
+    public Event(int id, String title, ArrayList<Category> categories, String date, String postedBy, Update firstUp, String status, ArrayList<SecurityForceUser> responsibles) throws ParseException {
         this.id = id;
         this.title = title;
         this.categories = categories;
@@ -29,7 +41,6 @@ public class Event {
         this.postedBy = postedBy;
         this.firstUpdate = firstUpdate;
         this.status = EventStatus.valueOf(status);
-        ;
         this.responsibleUsers = responsibleUsers;
     }
 

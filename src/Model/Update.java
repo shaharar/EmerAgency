@@ -6,19 +6,18 @@ import java.util.Date;
 
 public class Update {
 
-    private int ID;
     private String content;
     private int eventId;
     private String username;
     private int orderId;
     private Date publishDate;
+    private Update lastUpdate;
 
-    public Update(int ID, String content, int eventId, String username, int orderId, String publishDate) {
-        this.ID = ID;
+    public Update(String content, int eventId, String username, String publishDate) {
         this.content = content;
         this.eventId = eventId;
         this.username = username;
-        this.orderId = orderId;
+        this.orderId = 1;
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         Date d = null;
         try {
@@ -27,10 +26,30 @@ public class Update {
             e.printStackTrace();
         }
         this.publishDate = d;
+        lastUpdate = new Update();
     }
 
-    public int getID() {
-        return this.ID;
+    public Update() {
+    }
+
+    public Update(String content) {
+        this.content = content;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate.setContent(lastUpdate);
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Update getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public String getContent() {

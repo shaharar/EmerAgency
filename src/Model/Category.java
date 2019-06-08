@@ -2,20 +2,19 @@ package Model;
 
 public class Category {
     private String topic;
-    private int id;
+   // private int id;
 
-    public Category(int id, String topic) {
+    public Category(String topic) {
         this.topic = topic;
-        this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public String getTopic() {
 
