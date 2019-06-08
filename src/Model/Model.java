@@ -109,8 +109,8 @@ public class Model extends Observable {
 
     public static void main(String[] args) throws ParseException {
         View view = new View();
-        Controller controller=new Controller(view);
-        Model m = new Model(controller);
+//        Controller controller=new Controller(view);
+//        Model m = new Model(controller);
       //  ArrayList<String> categories = m.getAllCategories();
       //  ArrayList<String> firemen = m.getUsersByOrganization("FD");
 /*        ArrayList<Integer> events = m.getEventsByCategory("fire");
@@ -134,15 +134,15 @@ public class Model extends Observable {
         }*/
 
         //create event
-        ArrayList<Category> cat = new ArrayList<>();
-        cat.add(new Category("fire"));
-        cat.add(new Category("accident"));
-        ArrayList<SecurityForceUser> resp = new ArrayList<>();
-        resp.add(new SecurityForceUser("eini",new Organization("PD")));
-        resp.add(new SecurityForceUser("nit",new Organization("FD")));
-        Update fUp = new Update("5 injured people on the road");
-        Event e2 = new Event("accident in road 90",cat,"08-06-2019","nitza",fUp,resp);
-        System.out.println(m.createEvent(e2));
+//        ArrayList<Category> cat = new ArrayList<>();
+//        cat.add(new Category("fire"));
+//        cat.add(new Category("accident"));
+//        ArrayList<SecurityForceUser> resp = new ArrayList<>();
+//        resp.add(new SecurityForceUser("eini",new Organization("PD")));
+//        resp.add(new SecurityForceUser("nit",new Organization("FD")));
+//        Update fUp = new Update("5 injured people on the road");
+//        Event e2 = new Event("accident in road 90",cat,"08-06-2019","nitza",fUp,resp);
+//        System.out.println(m.createEvent(e2));
 
 /*        ArrayList<Category> cat2 = new ArrayList<>();
         cat.add(new Category("accident"));
