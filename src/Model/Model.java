@@ -119,8 +119,8 @@ public class Model extends Observable {
 //        resp.add(new SecurityForceUser("eini",new Organization("PD")));
 //        resp.add(new SecurityForceUser("nit",new Organization("FD")));
         Update fUp = new Update("5 injured people on the road");
-        Event e2 = new Event("accident in road 90",cat,"08-06-2019","nitza",fUp,resp);
-        System.out.println(m.createEvent(e2));
+        //Event e2 = new Event("accident in road 90",cat,"08-06-2019","nitza",fUp,resp);
+       // System.out.println(m.createEvent(e2));
 
 /*        ArrayList<Category> cat2 = new ArrayList<>();
         cat.add(new Category("accident"));
