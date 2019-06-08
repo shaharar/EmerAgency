@@ -28,7 +28,14 @@ public class View implements Observer {
     static Controller controller;
     static Stage MainStage;
     Stage stage;
+    private String username;
+    private String password;
 
+    public void Init(String username, String password, Stage stage){
+        this.username = username;
+        this.password = password;
+        this.stage=stage;
+    }
     @Override
     public void update(Observable o, Object arg) {
 

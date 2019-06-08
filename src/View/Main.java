@@ -4,23 +4,26 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import Controller.Controller;
+import Model.Model;
 
 public class Main extends Application {
 
-    private View view;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(getClass().getClassLoader().getResource("website.fxml").openStream());
-        primaryStage.setTitle("Welcome to EmerAgency");
-        Scene scene = new Scene(root, 640, 480);
+        Model model = new Model();
+        Controller controller = new Controller();
+        controller.setModel(model);
+        FXMLLoader fxm = new FXMLLoader();
+        Parent root = fxm.load(getClass().getResource("/login.fxml").openStream());
+        primaryStage.setTitle("Emer-Agency");
+        Scene scene = new Scene(root, 600, 392);
+        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         primaryStage.setScene(scene);
-        view = fxmlLoader.getController();
-        view.setMainStage(primaryStage);
-        Controller con = new Controller(view);
+        LoginView Main_control = fxm.getController();
+        Main_control.setController(controller);
+        Main_control.setStage(primaryStage);
         primaryStage.show();
     }
 
