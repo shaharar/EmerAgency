@@ -13,15 +13,15 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Observer;
 
-public class Controller implements Observable, Observer {
+public class Controller implements Observer {
 
     private Model model;
 
     public HashSet<String> categories;
 
 
-    public Controller(View view) {
-        this.model = new Model(this);
+    public Controller() {
+        this.model = new Model();
     }
 
     public HashSet<String> getCategories() {
@@ -30,18 +30,31 @@ public class Controller implements Observable, Observer {
 
     @Override
     public void update(java.util.Observable o, Object arg) {
-
+//        try{
+//            Object obj = ((Object[])arg)[0];
+//            String str = (String)obj;
+//            switch(str){
+//                case "create vacation failed":
+//                    showAlert("Create Vacation Failed", "Create vacation failed, please try again.");
+//                    break;
+//
+//                case "create vacation succeeded":
+//                    //openRud(txt_id_user.getText());
+//                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//                    alert.setTitle("Create Vacation Succeeded");
+//                    Optional<ButtonType> reasult = alert.showAndWait();
+//                    if(reasult.get() == ButtonType.OK)
+//                        alert.close();
+//                    Stage prim = (Stage) txt_title.getScene().getWindow();
+//                    prim.close();
+//                    break;
+//
+//            }
+//        } catch (Exception e){
+//
+//        }
     }
 
-    @Override
-    public void addListener(InvalidationListener listener) {
-
-    }
-
-    @Override
-    public void removeListener(InvalidationListener listener) {
-
-    }
 
     public void openwindow(String fxmlfile, Object Parameter) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -75,4 +88,8 @@ public class Controller implements Observable, Observer {
 
     }
 
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
 }
