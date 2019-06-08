@@ -3,20 +3,20 @@ package Model;
 import DB.DBManager;
 import View.View;
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import Controller.Controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Observable;
 
 
-public class Model implements Observable {
+public class Model extends Observable {
 
     private DBManager dbManager;
     static int eventID = 0;
 
-    public Model(Controller controller)
+    public Model()
     {
         this.dbManager = new DBManager();
     }
@@ -32,6 +32,10 @@ public class Model implements Observable {
     public ArrayList<String> getUsersByOrganization(String organization) {
         ArrayList<String> users = dbManager.getUsersByOrganization(organization);
         return users;
+    }
+
+    public User getUser (String username){
+        return dbManager.getUser(username);
     }
 
     public boolean createEvent(Event event) {
@@ -73,21 +77,18 @@ public class Model implements Observable {
         return dbManager.login(username, password);
     }
 
-    @Override
-    public void addListener(InvalidationListener listener) {
-
+    public String getOrganizationOfUser(String username) {
+        return dbManager.getOrganizationOfUser(username);
     }
 
-    @Override
-    public void removeListener(InvalidationListener listener) {
-
+    public int getRankOfUser(String username) {
+        return dbManager.getRankOfUser(username);
     }
-
 
     public static void main(String[] args) throws ParseException {
         View view = new View();
-        Controller controller=new Controller(view);
-        Model m = new Model(controller);
+        Controller controller = new Controller();
+        Model m = new Model();
       //  ArrayList<String> categories = m.getAllCategories();
       //  ArrayList<String> firemen = m.getUsersByOrganization("FD");
 /*        ArrayList<Integer> events = m.getEventsByCategory("fire");
@@ -115,8 +116,8 @@ public class Model implements Observable {
         cat.add(new Category("fire"));
         cat.add(new Category("accident"));
         ArrayList<SecurityForceUser> resp = new ArrayList<>();
-        resp.add(new SecurityForceUser("eini",new Organization("PD")));
-        resp.add(new SecurityForceUser("nit",new Organization("FD")));
+//        resp.add(new SecurityForceUser("eini",new Organization("PD")));
+//        resp.add(new SecurityForceUser("nit",new Organization("FD")));
         Update fUp = new Update("5 injured people on the road");
         Event e2 = new Event("accident in road 90",cat,"08-06-2019","nitza",fUp,resp);
         System.out.println(m.createEvent(e2));
@@ -129,4 +130,5 @@ public class Model implements Observable {
         Event e22 = new Event("accident in road 70",cat2,"10-06-2019","nitza",fUp2,resp2);
         System.out.println(m.createEvent(e22));*/
     }
+
 }

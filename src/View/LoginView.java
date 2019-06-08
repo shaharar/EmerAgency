@@ -53,7 +53,7 @@ public class LoginView {
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
                 View website = fxmlLoader.getController();
-                website.Init(userId.getText(),  password.getText(), stage);
+                website.Init(userId.getText(), stage);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();

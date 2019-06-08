@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Model;
 import View.View;
+import Model.User;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
@@ -91,5 +92,17 @@ public class Controller implements Observer {
 
     public void setModel(Model model) {
         this.model = model;
+    }
+
+//    public String getOrganizationOfUser(String username) {
+//        return model.getOrganizationOfUser(username);
+//    }
+//
+//    public int getRankOfUser(String username) {
+//        return model.getRankOfUser(username);
+//    }
+
+    public User getUser(String username) {
+        return model.getUser(username);
     }
 }

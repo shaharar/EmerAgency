@@ -112,7 +112,8 @@ public class DBManager {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                responsibleUsers.add(new SecurityForceUser(rs.getString("username"),new Organization(rs.getString("organization"))));
+                responsibleUsers.add(new SecurityForceUser(rs.getString("username"),
+                        new Organization(rs.getString("organization")), rs.getInt("rank")));
             }
             return responsibleUsers;
         } catch (SQLException e) {
@@ -267,4 +268,44 @@ public class DBManager {
         return false;
     }
 
+    public User getUser(String username) {
+        String sql = "SELECT * FROM Users WHERE username= '" + username + "'";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            Organization organization = new Organization(rs.getString("organization"));
+            User user;
+            if(organization.getName().equals("service center"))
+                user = new ServiceCenterUser(rs.getString("username"), organization, rs.getInt("rank"));
+            else
+                user = new RegularUser(rs.getString("username"), organization, rs.getInt("rank"));
+           return user;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public String getOrganizationOfUser(String username) {
+        String sql = "SELECT organization FROM Users WHERE username= '" + username + "'";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            return rs.getString("organization");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    public int getRankOfUser(String username) {
+        String sql = "SELECT rank FROM Users WHERE username= '" + username + "'";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            return rs.getInt("rank");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
+    }
 }

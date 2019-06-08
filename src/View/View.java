@@ -1,11 +1,14 @@
 package View;
 
 import Controller.Controller;
+import Model.Organization;
+import Model.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitMenuButton;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -24,6 +27,9 @@ public class View implements Observer {
     public javafx.scene.control.TextField newContent;
     public SplitMenuButton categoryMenu;
     List<CheckMenuItem> categoryOptions = new ArrayList<>();
+    public javafx.scene.control.Label lbl_user;
+    public javafx.scene.control.Label lbl_org;
+    public javafx.scene.control.Label lbl_rank;
 
     static Controller controller;
     static Stage MainStage;
@@ -31,10 +37,13 @@ public class View implements Observer {
     private String username;
     private String password;
 
-    public void Init(String username, String password, Stage stage){
-        this.username = username;
-        this.password = password;
-        this.stage=stage;
+    public void Init(String username, Stage stage){
+        controller = new Controller();
+        this.stage = stage;
+        User user = controller.getUser(username);
+        lbl_user.setText("username: " + username);
+        lbl_org.setText("Organization: " + user.getOrganization().getName());
+        lbl_rank.setText("Rank: " + user.getRank());
     }
     @Override
     public void update(Observable o, Object arg) {
