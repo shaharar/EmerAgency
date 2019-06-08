@@ -15,10 +15,12 @@ public class Model implements Observable {
 
     private DBManager dbManager;
     static int eventID = 0;
+    private String currUsername;
 
     public Model(Controller controller)
     {
         this.dbManager = new DBManager();
+        this.currUsername = "";
     }
 
 
@@ -35,10 +37,17 @@ public class Model implements Observable {
     }
 
     public boolean createEvent(Event event) {
-        event.setId(eventID);
-        if (dbManager.addEvent(event) && dbManager.addCategoriesOfEvent(event) && dbManager.addResponsiblesOfEvent(event)){
-            eventID ++;
-            return true;
+        User currUser = dbManager.getUser(currUsername);
+        if (currUser != null) { //valid user is logged in
+            if (!currUser.getOrganization().getName().equals("SD")) { //only service center user may create event
+                return false;
+            }
+            event.setId(eventID);
+            event.setPostedBy(currUsername);
+            if (dbManager.addEvent(event) && dbManager.addCategoriesOfEvent(event) && dbManager.addResponsiblesOfEvent(event)){
+                eventID ++;
+                return true;
+            }
         }
         return false;
     }
@@ -70,7 +79,19 @@ public class Model implements Observable {
     }
 
     public boolean login(String username, String password) {
-        return dbManager.login(username, password);
+        if (dbManager.login(username, password)){
+            currUsername = username;
+            return true;
+        }
+        else {
+            System.out.println("login failed");
+            return false;
+        }
+    //    return false;
+    }
+
+    public void logout() {
+        currUsername = "";
     }
 
     @Override
@@ -102,7 +123,7 @@ public class Model implements Observable {
         System.out.println(m.getFirstUpdate(2));*/
 
         //create update
-/*        Update up = new Update("Evacuation of the injured",2,"sha","20-05-2019");
+/*        Update up = new Update("Finish treatment",2,"nit","20-05-2019");
         m.createUpdate(up);
 
         ArrayList<Permission> permissions = m.getPermissionsOfEvent("sha",1);
@@ -110,16 +131,18 @@ public class Model implements Observable {
             System.out.println(p.getPermission());
         }*/
 
+        m.login("sha","s");
+
         //create event
-        ArrayList<Category> cat = new ArrayList<>();
+/*        ArrayList<Category> cat = new ArrayList<>();
         cat.add(new Category("fire"));
         cat.add(new Category("accident"));
         ArrayList<SecurityForceUser> resp = new ArrayList<>();
         resp.add(new SecurityForceUser("eini",new Organization("PD")));
         resp.add(new SecurityForceUser("nit",new Organization("FD")));
         Update fUp = new Update("5 injured people on the road");
-        Event e2 = new Event("accident in road 90",cat,"08-06-2019","nitza",fUp,resp);
-        System.out.println(m.createEvent(e2));
+        Event e2 = new Event("accident in road 90",cat,"08-06-2019",fUp,resp);
+        System.out.println(m.createEvent(e2));*/
 
 /*        ArrayList<Category> cat2 = new ArrayList<>();
         cat.add(new Category("accident"));

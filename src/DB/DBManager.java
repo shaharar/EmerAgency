@@ -224,7 +224,7 @@ public class DBManager {
 
     public String[] getLastUpdate(int eventId) {
         String[] updateInfo = new String[2];
-        String sql = "SELECT MAX(orderId) as maxOrder FROM Updates WHERE eventId= '" + eventId + "'";
+        String sql = "SELECT content, MAX(orderId) as maxOrder FROM Updates WHERE eventId= '" + eventId + "'";
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -267,4 +267,19 @@ public class DBManager {
         return false;
     }
 
+    public User getUser(String username) {
+        if (username.equals("")){
+            return null;
+        }
+        String sql = "SELECT * FROM Users WHERE username= '" + username + "'";
+        try (Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
+            User rUser = new RegularUser(rs.getString("username"),new Organization(rs.getString("organization")));
+            return rUser;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

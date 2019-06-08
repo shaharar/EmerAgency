@@ -19,7 +19,7 @@ public class Event {
 
     private Permission[] permissions;
 
-    public Event(String title, ArrayList<Category> categories, String date, String postedBy, Update firstUpdate, ArrayList<SecurityForceUser> responsibleUsers) throws ParseException {
+    public Event(String title, ArrayList<Category> categories, String date, Update firstUpdate, ArrayList<SecurityForceUser> responsibleUsers) throws ParseException {
         this.title = title;
         this.categories = categories;
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
