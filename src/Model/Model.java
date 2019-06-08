@@ -15,10 +15,12 @@ public class Model extends Observable {
 
     private DBManager dbManager;
     static int eventID = 0;
+    private String currUsername;
 
     public Model()
     {
         this.dbManager = new DBManager();
+        this.currUsername = "";
     }
 
 
@@ -39,10 +41,17 @@ public class Model extends Observable {
     }
 
     public boolean createEvent(Event event) {
-        event.setId(eventID);
-        if (dbManager.addEvent(event) && dbManager.addCategoriesOfEvent(event) && dbManager.addResponsiblesOfEvent(event)){
-            eventID ++;
-            return true;
+        User currUser = dbManager.getUser(currUsername);
+        if (currUser != null) { //valid user is logged in
+            if (!currUser.getOrganization().getName().equals("SD")) { //only service center user may create event
+                return false;
+            }
+            event.setId(eventID);
+            event.setPostedBy(currUsername);
+            if (dbManager.addEvent(event) && dbManager.addCategoriesOfEvent(event) && dbManager.addResponsiblesOfEvent(event)){
+                eventID ++;
+                return true;
+            }
         }
         return false;
     }
@@ -74,7 +83,19 @@ public class Model extends Observable {
     }
 
     public boolean login(String username, String password) {
-        return dbManager.login(username, password);
+        if (dbManager.login(username, password)){
+            currUsername = username;
+            return true;
+        }
+        else {
+            System.out.println("login failed");
+            return false;
+        }
+    //    return false;
+    }
+
+    public void logout() {
+        currUsername = "";
     }
 
     public String getOrganizationOfUser(String username) {
@@ -85,10 +106,11 @@ public class Model extends Observable {
         return dbManager.getRankOfUser(username);
     }
 
+
     public static void main(String[] args) throws ParseException {
         View view = new View();
-        Controller controller = new Controller();
-        Model m = new Model();
+        Controller controller=new Controller(view);
+        Model m = new Model(controller);
       //  ArrayList<String> categories = m.getAllCategories();
       //  ArrayList<String> firemen = m.getUsersByOrganization("FD");
 /*        ArrayList<Integer> events = m.getEventsByCategory("fire");
@@ -116,11 +138,11 @@ public class Model extends Observable {
         cat.add(new Category("fire"));
         cat.add(new Category("accident"));
         ArrayList<SecurityForceUser> resp = new ArrayList<>();
-//        resp.add(new SecurityForceUser("eini",new Organization("PD")));
-//        resp.add(new SecurityForceUser("nit",new Organization("FD")));
+        resp.add(new SecurityForceUser("eini",new Organization("PD")));
+        resp.add(new SecurityForceUser("nit",new Organization("FD")));
         Update fUp = new Update("5 injured people on the road");
-        //Event e2 = new Event("accident in road 90",cat,"08-06-2019","nitza",fUp,resp);
-       // System.out.println(m.createEvent(e2));
+        Event e2 = new Event("accident in road 90",cat,"08-06-2019","nitza",fUp,resp);
+        System.out.println(m.createEvent(e2));
 
 /*        ArrayList<Category> cat2 = new ArrayList<>();
         cat.add(new Category("accident"));
@@ -130,5 +152,4 @@ public class Model extends Observable {
         Event e22 = new Event("accident in road 70",cat2,"10-06-2019","nitza",fUp2,resp2);
         System.out.println(m.createEvent(e22));*/
     }
-
 }
