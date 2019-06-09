@@ -14,34 +14,29 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
-public class View implements Observer {
+public class View extends MainView implements Observer {
 
     public javafx.scene.control.Button btn_Create;
     public javafx.scene.control.Button btn_Watch;
     public javafx.scene.control.Button btn_Edit;
     public javafx.scene.control.Button btn_LogOut;
-//    public javafx.scene.control.TextField titleEvent;
-//    public javafx.scene.control.TextField firstUpdate;
-//    public javafx.scene.control.TextField eventIdToWatch;
-//    public javafx.scene.control.TextField eventIdToEdit;
-//    public javafx.scene.control.TextField updateId;
-//    public javafx.scene.control.TextField newContent;
     public javafx.scene.control.ComboBox categoryMenu;
-    List<CheckMenuItem> categoryOptions = new ArrayList<>();
+//    List<CheckMenuItem> categoryOptions = new ArrayList<>();
     public javafx.scene.control.ComboBox eventsMenu;
     public javafx.scene.control.Label lbl_user;
     public javafx.scene.control.Label lbl_org;
     public javafx.scene.control.Label lbl_rank;
     public javafx.scene.control.CheckBox finishedChoosing;
 
-    static Controller controller;
-    static Stage MainStage;
-    Stage stage;
+    public String uname;
 
-    public void Init(String username, Stage stage){
-        controller = new Controller();
+    public void Init(String username,Controller controller, Stage stage){
+        uname = username;
+        this.controller = controller;
         this.stage = stage;
         User user = controller.getUser(username);
+        if(!user.getOrganization().getName().equals("SD"))
+            btn_Create.setDisable(true);
         lbl_user.setText("username: " + username);
         lbl_org.setText("Organization: " + user.getOrganization().getName());
         lbl_rank.setText("Rank: " + user.getRank());
@@ -71,59 +66,55 @@ public class View implements Observer {
         controller = conection_layer;
     }
 
-    public void logOut(){
+//    public void logOut(){
+//        getStage().close();
+//        Stage stage = new Stage();
+//        stage.setTitle("Emer-Agency");
+//        FXMLLoader fxmlLoader = new FXMLLoader();
+//        try {
+//            Parent root = fxmlLoader.load(getClass().getResource("/login.fxml").openStream());
+//            Scene scene = new Scene(root, 600, 392);
+//            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+//            stage.setScene(scene);
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
+    public void create(){
         getStage().close();
         Stage stage = new Stage();
         stage.setTitle("Emer-Agency");
         FXMLLoader fxmlLoader = new FXMLLoader();
         try {
-            Parent root = fxmlLoader.load(getClass().getResource("/login.fxml").openStream());
-            Scene scene = new Scene(root, 600, 392);
+            Parent root = fxmlLoader.load(getClass().getResource("/create_event.fxml").openStream());
+            Scene scene = new Scene(root, 754, 497);
             scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
+            CreateEventView cnv = fxmlLoader.getController();
+            cnv.Init(uname, controller, stage);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void showAlert(String alertMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(alertMessage);
-        alert.show();
-    }
-
-    public void create(){
-//        if(titleEvent.getText().equals("") || firstUpdate.getText().equals("")) {
-//            showAlert("you must fill the fields of title and firstUpdate");
-//            return;
-//        }
-//        boolean check = false;
-//        for (int i = 0; i < categoryOptions.size(); i++) {
-//            if(categoryOptions.get(i).isSelected()) {
-//                check = true;
-//                break;
-//            }
-//        }
-//        if(!check){
-//            showAlert("you must choose at least one category");
-//            return;
-//        }
-//
-//        controller.create(titleEvent.getText(), firstUpdate.getText());
-//        showAlert("event was created");
-    }
-
 
     public void watch() throws ParseException {
-        if(eventsMenu.getValue().equals("") ) {
+        if(eventsMenu.getValue().equals("")) {
             showAlert("you must choose any event");
             return;
         }
         else {
-            Event e = controller.watch((int) eventsMenu.getValue());
-            showAlert("id: " + e.getId() + "\ntitle: " + e.getTitle() + "\npublish date: " + e.getDate() +
+            Event e = controller.watch(uname, (int) eventsMenu.getValue());
+            if(e == null)
+                showAlert("You don't have permission to view this event");
+            else
+                showAlert("id: " + e.getId() + "\ntitle: " + e.getTitle() + "\npublish date: " + e.getDate() +
                         "\nposted by: " + e.getPostedBy() + "\nfirst update: " + e.getFirstUpdate() + "\nstatus: " + e.getStatus());
         }
 

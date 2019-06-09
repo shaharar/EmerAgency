@@ -7,6 +7,7 @@ import Model.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckMenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -56,34 +57,38 @@ public class Controller implements Observer {
 //        }
     }
 
+//    public void openwindow(String fxmlfile, Object Parameter) {
+//        FXMLLoader fxmlLoader = new FXMLLoader();
+//        Parent root = null;
+//        try {
+//            root = fxmlLoader.load(getClass().getClassLoader().getResource(fxmlfile).openStream());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Stage newStage = new Stage();
+//        Scene scene = new Scene(root, 600, 457);
+//        newStage.setScene(scene);
+//
+//        View NewWindow = fxmlLoader.getController();
+//        // NewWindow.setStage(newStage);
+//        NewWindow.setController(this);
+//        newStage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+//        newStage.show();
+//    }
 
-    public void openwindow(String fxmlfile, Object Parameter) {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = null;
-        try {
-            root = fxmlLoader.load(getClass().getClassLoader().getResource(fxmlfile).openStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage newStage = new Stage();
-        Scene scene = new Scene(root, 600, 457);
-        newStage.setScene(scene);
-
-        View NewWindow = fxmlLoader.getController();
-        // NewWindow.setStage(newStage);
-        NewWindow.setController(this);
-        newStage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-        newStage.show();
-    }
     public boolean login(String username, String password) {
         return  (model.login(username, password));
     }
 
-    public void create(String title, String firstUpdate){
+    public boolean createEvent(Event event){
+        return model.createEvent(event);
 
     }
-    public Event watch(int eventId) throws ParseException {
-        return model.getEvent(eventId);
+    public Event watch(String uname, int eventId) throws ParseException {
+        if(model.getPermissionsOfEvent(uname, eventId).contains("read"))
+            return model.getEvent(eventId);
+        else
+            return null;
     }
 
     public void edit(String eventId, String updateId, String newContent){
@@ -111,7 +116,8 @@ public class Controller implements Observer {
         return model.getEventsByCategory(c);
     }
 
-//    public ArrayList<String> getEvents() {
-//        return model.getEventsByCategory()
-//    }
+    public ArrayList<String> getUsersByOrg(String organization) {
+        return model.getUsersByOrganization(organization);
+    }
+
 }

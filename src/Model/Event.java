@@ -3,6 +3,8 @@ package Model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -11,37 +13,37 @@ public class Event {
     private int id;
     private String title;
     private ArrayList<Category> categories;
-    private Date date;
+    private LocalDate date;
     private String postedBy;
-    private Update firstUpdate;
+    private String firstUpdate;
     private EventStatus status;
     private ArrayList<SecurityForceUser> responsibleUsers;
 
     private Permission[] permissions;
 
-    public Event(String title, ArrayList<Category> categories, String date, Update firstUpdate, ArrayList<SecurityForceUser> responsibleUsers) throws ParseException {
+    public Event(String title, ArrayList<Category> categories, LocalDate date, String status, String firstUpdate, ArrayList<SecurityForceUser> responsibleUsers) throws ParseException {
         this.title = title;
         this.categories = categories;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date d = formatter.parse(date);
-        this.date = d;
-        this.postedBy = postedBy;
-        this.firstUpdate = firstUpdate;
-        this.status = EventStatus.IN_TREATMENT;
-        this.responsibleUsers = responsibleUsers;
-    }
-
-    public Event(int id, String title, ArrayList<Category> categories, String date, String postedBy, Update firstUp, String status, ArrayList<SecurityForceUser> responsibles) throws ParseException {
-        this.id = id;
-        this.title = title;
-        this.categories = categories;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date d = formatter.parse(date);
-        this.date = d;
-        this.postedBy = postedBy;
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        //Date d = formatter.parse(date);
+        this.date = date;
+        this.postedBy = "";
         this.firstUpdate = firstUpdate;
         this.status = EventStatus.valueOf(status);
         this.responsibleUsers = responsibleUsers;
+    }
+
+    public Event(int id, String title, ArrayList<Category> categories, String date, String postedBy, String firstUp, String status, ArrayList<SecurityForceUser> responsibles) throws ParseException {
+        this.id = id;
+        this.title = title;
+        this.categories = categories;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        //LocalDate d = formatter.format(date);
+        this.date = LocalDate.parse(date, formatter);
+        this.postedBy = postedBy;
+        this.firstUpdate = firstUp;
+        this.status = EventStatus.valueOf(status);
+        this.responsibleUsers = responsibles;
     }
 
     public int getId() {
@@ -68,11 +70,11 @@ public class Event {
         this.categories = categories;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -84,11 +86,11 @@ public class Event {
         this.postedBy = postedBy;
     }
 
-    public Update getFirstUpdate() {
+    public String getFirstUpdate() {
         return firstUpdate;
     }
 
-    public void setFirstUpdate(Update firstUpdate) {
+    public void setFirstUpdate(String firstUpdate) {
         this.firstUpdate = firstUpdate;
     }
 

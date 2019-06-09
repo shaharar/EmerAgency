@@ -80,7 +80,8 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery(sql)) {
             ArrayList<Category> categories = getCategoriesOfEvent(eventID);
             ArrayList<SecurityForceUser> responsibles = getResponsiblesOfEvent(eventID);
-            Update firstUp = getUpdate(rs.getString("firstUpdate"));
+            //Update firstUp = getUpdate(rs.getString("firstUpdate"));
+            String firstUp = rs.getString("firstUpdate");
             Event event = new Event(rs.getInt("id"), rs.getString("title"), categories, rs.getString("publishDate"),
                     rs.getString("postedBy"), firstUp, rs.getString("status"), responsibles);
             return event;
@@ -146,7 +147,8 @@ public class DBManager {
             pstmt.setString(2, event.getTitle());
             pstmt.setString(3, event.getDate().toString());
             pstmt.setString(4, event.getPostedBy());
-            pstmt.setString(5, event.getFirstUpdate().getContent());
+//            pstmt.setString(5, event.getFirstUpdate().getContent());
+            pstmt.setString(5, event.getFirstUpdate());
             pstmt.setString(6, event.getStatus().toString());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -278,7 +280,7 @@ public class DBManager {
             if(organization.getName().equals("service center"))
                 user = new ServiceCenterUser(rs.getString("username"), organization, rs.getInt("rank"));
             else
-                user = new RegularUser(rs.getString("username"), organization, rs.getInt("rank"));
+                user = new SecurityForceUser(rs.getString("username"), organization, rs.getInt("rank"));
            return user;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -307,5 +309,20 @@ public class DBManager {
             System.out.println(e.getMessage());
         }
         return -1;
+    }
+
+    public ArrayList<String> getAllUsers() {
+        ArrayList<String> users = new ArrayList<>();
+        String sql = "SELECT username FROM Users";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()){
+                users.add(rs.getString("username"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return users;
     }
 }

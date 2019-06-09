@@ -23,8 +23,6 @@ public class Model extends Observable {
         this.currUsername = "";
     }
 
-
-
     public ArrayList<String> getAllCategories() {
         ArrayList<String> categories = dbManager.getCategories();
         return categories;
@@ -58,7 +56,8 @@ public class Model extends Observable {
 
     public String getFirstUpdate(int eventId) throws ParseException {
         Event e = getEvent(eventId);
-        return e.getFirstUpdate().getContent();
+        //return e.getFirstUpdate().getContent();
+        return e.getFirstUpdate();
     }
 
     public ArrayList<Integer> getEventsByCategory (String categoryName) {
@@ -100,6 +99,10 @@ public class Model extends Observable {
 
     public String getOrganizationOfUser(String username) {
         return dbManager.getOrganizationOfUser(username);
+    }
+
+    public ArrayList<String> getAllUsers() {
+        return dbManager.getAllUsers();
     }
 
     public int getRankOfUser(String username) {

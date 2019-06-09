@@ -49,6 +49,7 @@ public class LoginView {
         if (!controller.login(userId.getText(), password.getText())) {
             showAlert("Incorrect details");
         } else {
+            controller.login(userId.getText(), password.getText());
             getStage().close();
             Stage stage = new Stage();
             stage.setTitle("Emer-Agency");
@@ -60,7 +61,7 @@ public class LoginView {
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
                 View website = fxmlLoader.getController();
-                website.Init(userId.getText(), stage);
+                website.Init(userId.getText(), controller, stage);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
