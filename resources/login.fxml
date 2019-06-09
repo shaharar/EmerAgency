@@ -9,6 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 
+<?import javafx.scene.control.PasswordField?>
 <AnchorPane prefHeight="392.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginView">
    <children>
       <ImageView fitHeight="240.0" fitWidth="259.0" layoutX="171.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
@@ -32,6 +33,6 @@
          </font>
       </Label>
       <TextField fx:id="userId" layoutX="293.0" layoutY="70.0" prefHeight="25.0" prefWidth="129.0" />
-      <TextField fx:id="password" layoutX="293.0" layoutY="103.0" prefHeight="25.0" prefWidth="129.0" />
+      <PasswordField fx:id="password" layoutX="293.0" layoutY="103.0" prefHeight="25.0" prefWidth="129.0" />
    </children>
 </AnchorPane>

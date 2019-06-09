@@ -1,17 +1,17 @@
 package View;
 
 import Controller.Controller;
+import Model.Event;
 import Model.Organization;
 import Model.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 public class View implements Observer {
@@ -19,23 +19,24 @@ public class View implements Observer {
     public javafx.scene.control.Button btn_Create;
     public javafx.scene.control.Button btn_Watch;
     public javafx.scene.control.Button btn_Edit;
-    public javafx.scene.control.TextField titleEvent;
-    public javafx.scene.control.TextField firstUpdate;
-    public javafx.scene.control.TextField eventIdToWatch;
-    public javafx.scene.control.TextField eventIdToEdit;
-    public javafx.scene.control.TextField updateId;
-    public javafx.scene.control.TextField newContent;
-    public SplitMenuButton categoryMenu;
+    public javafx.scene.control.Button btn_LogOut;
+//    public javafx.scene.control.TextField titleEvent;
+//    public javafx.scene.control.TextField firstUpdate;
+//    public javafx.scene.control.TextField eventIdToWatch;
+//    public javafx.scene.control.TextField eventIdToEdit;
+//    public javafx.scene.control.TextField updateId;
+//    public javafx.scene.control.TextField newContent;
+    public javafx.scene.control.ComboBox categoryMenu;
     List<CheckMenuItem> categoryOptions = new ArrayList<>();
+    public javafx.scene.control.ComboBox eventsMenu;
     public javafx.scene.control.Label lbl_user;
     public javafx.scene.control.Label lbl_org;
     public javafx.scene.control.Label lbl_rank;
+    public javafx.scene.control.CheckBox finishedChoosing;
 
     static Controller controller;
     static Stage MainStage;
     Stage stage;
-    private String username;
-    private String password;
 
     public void Init(String username, Stage stage){
         controller = new Controller();
@@ -44,6 +45,14 @@ public class View implements Observer {
         lbl_user.setText("username: " + username);
         lbl_org.setText("Organization: " + user.getOrganization().getName());
         lbl_rank.setText("Rank: " + user.getRank());
+        eventsMenu.setDisable(true);
+        categoryOptions();
+        final Tooltip tooltip = new Tooltip();
+        tooltip.setText("you can open this combo box, \nsee all existing categories \nand select one");
+        categoryMenu.setTooltip(tooltip);
+        final Tooltip tooltip2 = new Tooltip();
+        tooltip.setText("you can open this combo box, \nsee all events belonging to your \nchosen category and choose one");
+        eventsMenu.setTooltip(tooltip);
     }
     @Override
     public void update(Observable o, Object arg) {
@@ -55,27 +64,25 @@ public class View implements Observer {
     }
 
     public void setStage(Stage stage){
-        this.stage=stage;
+        this.stage = stage;
     };
 
-    public void setController(Controller controller){
-        this.controller = controller;
-        this.categoryOptions(controller.getCategories());
+    public void setController(Controller conection_layer){
+        controller = conection_layer;
     }
 
-    public void ChangeScene(String fxml) {
+    public void logOut(){
+        getStage().close();
+        Stage stage = new Stage();
+        stage.setTitle("Emer-Agency");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = null;
         try {
-            root = fxmlLoader.load(getClass().getClassLoader().getResource(fxml).openStream());
-            Scene scene = new Scene(root, 1024, 600);
-            MainStage.setScene(scene);
-            if(fxml.equals("website.fxml")){
-                //   scene.getStylesheets().add(getClass().getClassLoader().getResource("Background.css").toExternalForm());
-            }else if(fxml.equals("login.fxml")){
-                // scene.getStylesheets().add(getClass().getClassLoader().getResource("ViewStyle.css").toExternalForm());
-            }
-            MainStage.show();
+            Parent root = fxmlLoader.load(getClass().getResource("/login.fxml").openStream());
+            Scene scene = new Scene(root, 600, 392);
+            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,55 +95,72 @@ public class View implements Observer {
     }
 
     public void create(){
-        if(titleEvent.getText().equals("") || firstUpdate.getText().equals("")) {
-            showAlert("you must fill the fields of title and firstUpdate");
-            return;
-        }
-        boolean check=false;
-        for (int i = 0; i < categoryOptions.size(); i++) {
-            if(categoryOptions.get(i).isSelected()) {
-                check = true;
-                break;
-            }
-        }
-        if(!check){
-            showAlert("you must choose at least one category");
-            return;
-        }
-
-        controller.create(titleEvent.getText(), firstUpdate.getText());
-        showAlert("event was created");
+//        if(titleEvent.getText().equals("") || firstUpdate.getText().equals("")) {
+//            showAlert("you must fill the fields of title and firstUpdate");
+//            return;
+//        }
+//        boolean check = false;
+//        for (int i = 0; i < categoryOptions.size(); i++) {
+//            if(categoryOptions.get(i).isSelected()) {
+//                check = true;
+//                break;
+//            }
+//        }
+//        if(!check){
+//            showAlert("you must choose at least one category");
+//            return;
+//        }
+//
+//        controller.create(titleEvent.getText(), firstUpdate.getText());
+//        showAlert("event was created");
     }
 
 
-    public void watch(){
-        if(eventIdToWatch.getText().equals("") ) {
-            showAlert("you must fill the field of eventId");
+    public void watch() throws ParseException {
+        if(eventsMenu.getValue().equals("") ) {
+            showAlert("you must choose any event");
             return;
         }
-        controller.watch(eventIdToWatch.getText());
-       //מה זה אמור להציג?
+        else {
+            Event e = controller.watch((int) eventsMenu.getValue());
+            showAlert("id: " + e.getId() + "\ntitle: " + e.getTitle() + "\npublish date: " + e.getDate() +
+                        "\nposted by: " + e.getPostedBy() + "\nfirst update: " + e.getFirstUpdate() + "\nstatus: " + e.getStatus());
+        }
+
     }
 
 
     public void edit(){
-        if(eventIdToEdit.getText().equals("") || updateId.getText().equals("") || newContent.getText().equals("")) {
-            showAlert("you must fill the fields of eventId, updateId and newContent");
-            return;
+//        if(eventIdToEdit.getText().equals("") || updateId.getText().equals("") || newContent.getText().equals("")) {
+//            showAlert("you must fill the fields of eventId, updateId and newContent");
+//            return;
+//        }
+//        controller.edit(titleEvent.getText(), firstUpdate.getText(), newContent.getText());
+//        showAlert("edit was successful");
+    }
+
+    public void categoryOptions(){
+        final Tooltip tooltip = new Tooltip();
+        tooltip.setText("mark this check box \nonly after you have \nselected a category");
+        finishedChoosing.setTooltip(tooltip);
+        ArrayList<String> categories = controller.getCategories();
+        categoryMenu.getItems().addAll(categories);
+    }
+
+    public void finishChoosingCategory(){
+        eventsMenu.setDisable(false);
+        eventsOptions();
+    }
+
+    public void eventsOptions(){
+        if(categoryMenu.getValue() != ""){
+            ArrayList<Integer> events = controller.getEvetnsByCategory((String) categoryMenu.getValue());
+            eventsMenu.getItems().addAll(events);
         }
-        controller.edit(titleEvent.getText(), firstUpdate.getText(), newContent.getText());
-        showAlert("edit was successful");
-    }
-    public void categoryOptions(HashSet<String> categories){
-        categoryOptions = new ArrayList<>();
-        for (String category : categories)
-            categoryOptions.add(new CheckMenuItem(category));
-        categoryMenu.getItems().addAll(categoryOptions);
     }
 
-
-    public void closeWindow(){
-        stage.close();
+    public Stage getStage() {
+        return stage;
     }
 }
 

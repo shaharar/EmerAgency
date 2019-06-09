@@ -3,30 +3,30 @@ package Controller;
 import Model.Model;
 import View.View;
 import Model.User;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
+import Model.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.HashSet;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Observer;
 
 public class Controller implements Observer {
 
     private Model model;
 
-    public HashSet<String> categories;
+//    public HashSet<String> categories;
 
 
     public Controller() {
         this.model = new Model();
     }
 
-    public HashSet<String> getCategories() {
-        return categories;
+    public ArrayList<String> getCategories() {
+        return model.getAllCategories();
     }
 
     @Override
@@ -82,9 +82,10 @@ public class Controller implements Observer {
     public void create(String title, String firstUpdate){
 
     }
-    public void watch(String eventId){
-
+    public Event watch(int eventId) throws ParseException {
+        return model.getEvent(eventId);
     }
+
     public void edit(String eventId, String updateId, String newContent){
 
     }
@@ -105,4 +106,12 @@ public class Controller implements Observer {
     public User getUser(String username) {
         return model.getUser(username);
     }
+
+    public ArrayList<Integer> getEvetnsByCategory(String c) {
+        return model.getEventsByCategory(c);
+    }
+
+//    public ArrayList<String> getEvents() {
+//        return model.getEventsByCategory()
+//    }
 }

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -14,7 +15,8 @@ public class LoginView {
 
     public javafx.scene.control.Button btn_login;
     public javafx.scene.control.TextField userId;
-    public javafx.scene.control.TextField password;
+    //public javafx.scene.control.TextField password;
+    public PasswordField password = new PasswordField();
 
     static Controller controller;
     static Stage stage;
@@ -36,6 +38,11 @@ public class LoginView {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(alertMessage);
         alert.show();
+    }
+
+    public void init(){
+        userId.setPromptText("Username");
+        password.setPromptText("Password");
     }
 
     public void login () {

@@ -112,7 +112,8 @@ public class DBManager {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                responsibleUsers.add(new SecurityForceUser(rs.getString("username"),new Organization(rs.getString("organization")), rs.getInt("rank")));
+                responsibleUsers.add(new SecurityForceUser(rs.getString("username"),
+                        new Organization(rs.getString("organization")), rs.getInt("rank")));
             }
             return responsibleUsers;
         } catch (SQLException e) {

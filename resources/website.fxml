@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitMenuButton?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="460.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.View">
@@ -19,102 +16,23 @@
             <Image url="@logo.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="574.0" fitWidth="460.0" layoutX="77.0" layoutY="14.0" opacity="0.58" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="574.0" fitWidth="460.0" layoutX="185.0" layoutY="1.0" opacity="0.58" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@155994848127060913.png" />
          </image>
       </ImageView>
-      <Button fx:id="btn_Create" layoutX="493.0" layoutY="181.0" mnemonicParsing="false" onAction="#create" prefHeight="39.0" prefWidth="132.0" text="Create Event">
+      <Button fx:id="btn_Create" layoutX="240.0" layoutY="126.0" mnemonicParsing="false" onAction="#create" prefHeight="39.0" prefWidth="198.0" text="Create New Event">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font name="Georgia Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="btn_Watch" layoutX="350.0" layoutY="292.0" mnemonicParsing="false" onAction="#watch" prefHeight="39.0" prefWidth="132.0" text="Watch Event">
+      <Button fx:id="btn_Watch" layoutX="257.0" layoutY="274.0" mnemonicParsing="false" onAction="#watch" prefHeight="17.0" prefWidth="142.0" text="Watch Event">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font name="Georgia Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="btn_Edit" layoutX="493.0" layoutY="410.0" mnemonicParsing="false" onAction="#edit" prefHeight="39.0" prefWidth="132.0" text="Edit Update">
+      <Button fx:id="btn_Edit" layoutX="257.0" layoutY="321.0" mnemonicParsing="false" onAction="#edit" prefHeight="33.0" prefWidth="142.0" text="Add Update">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font name="Georgia Bold" size="18.0" />
          </font></Button>
-      <TextField fx:id="titleEvent" layoutX="14.0" layoutY="327.0" prefHeight="39.0" prefWidth="132.0" />
-      <Label layoutX="507.0" layoutY="332.0" prefHeight="30.0" prefWidth="65.0" text="Title">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#14a1ccc2" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <font>
-            <Font name="Bell MT Bold" size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="firstUpdate" layoutX="183.0" layoutY="339.0" prefHeight="39.0" prefWidth="139.0" />
-      <Label layoutX="352.0" layoutY="332.0" prefHeight="30.0" prefWidth="139.0" text="First Update">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#14a1ccc2" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <font>
-            <Font name="Bell MT Bold" size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="eventIdToEdit" layoutX="22.0" layoutY="410.0" prefHeight="39.0" prefWidth="98.0" />
-      <TextField fx:id="updateId" layoutX="138.0" layoutY="410.0" prefHeight="39.0" prefWidth="115.0" />
-      <Label layoutX="22.0" layoutY="380.0" prefHeight="30.0" prefWidth="98.0" text="Event Id">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#14a1ccc2" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <font>
-            <Font name="Bell MT Bold" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="138.0" layoutY="380.0" prefHeight="30.0" prefWidth="108.0" text="Update Id">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#14a1ccc2" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <font>
-            <Font name="Bell MT Bold" size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="newContent" layoutX="271.0" layoutY="410.0" prefHeight="39.0" prefWidth="204.0" />
-      <Label layoutX="307.0" layoutY="380.0" prefHeight="30.0" prefWidth="132.0" text="new content">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#14a1ccc2" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <font>
-            <Font name="Bell MT Bold" size="24.0" />
-         </font>
-      </Label>
-      <SplitMenuButton layoutX="491.0" layoutY="265.0" mnemonicParsing="false" text="Category">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
-        </items>
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-      </SplitMenuButton>
       <Label fx:id="lbl_user" layoutX="573.0" layoutY="14.0" prefHeight="17.0" prefWidth="157.0" text="Username: ">
          <font>
             <Font name="Georgia Bold" size="12.0" />
@@ -127,12 +45,22 @@
          <font>
             <Font name="Georgia Bold" size="12.0" />
          </font></Label>
-      <Label layoutX="37.0" layoutY="181.0" prefHeight="17.0" prefWidth="218.0" text="Choose enent to watch in details" />
-      <SplitMenuButton layoutX="220.0" layoutY="177.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Events">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
-        </items>
-      </SplitMenuButton>
+      <Label layoutX="153.0" layoutY="219.0" prefHeight="23.0" prefWidth="198.0" text="Choose an existing event">
+         <font>
+            <Font name="Georgia Bold" size="15.0" />
+         </font></Label>
+      <Button fx:id="btn_LogOut" layoutX="626.0" layoutY="65.0" mnemonicParsing="false" onAction="#logOut" text="Log Out" textFill="#e35d12">
+         <font>
+            <Font name="Georgia Bold" size="12.0" />
+         </font></Button>
+      <Label layoutX="153.0" layoutY="194.0" prefHeight="23.0" prefWidth="133.0" text="Choose category ">
+         <font>
+            <Font name="Georgia Bold" size="15.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="categoryMenu" layoutX="356.0" layoutY="193.0" prefHeight="25.0" prefWidth="118.0" promptText="Categories">
+      </ComboBox>
+      <ComboBox fx:id="eventsMenu" layoutX="356.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" promptText="Events" />
+      <CheckBox fx:id="finishedChoosing" onAction="#finishChoosingCategory" layoutX="486.0" layoutY="197.0" mnemonicParsing="false" text="finished choosing" />
    </children>
 </AnchorPane>

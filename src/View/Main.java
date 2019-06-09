@@ -24,6 +24,7 @@ public class Main extends Application {
         LoginView Main_control = fxm.getController();
         Main_control.setController(controller);
         Main_control.setStage(primaryStage);
+        Main_control.init();
         primaryStage.show();
     }
 
