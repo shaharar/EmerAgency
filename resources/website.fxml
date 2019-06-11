@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="460.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.View">
+<AnchorPane prefHeight="460.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.View">
    <children>
       <ImageView fitHeight="77.0" fitWidth="87.0" layoutX="7.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -61,6 +61,7 @@
       <ComboBox fx:id="categoryMenu" layoutX="356.0" layoutY="193.0" prefHeight="25.0" prefWidth="118.0" promptText="Categories">
       </ComboBox>
       <ComboBox fx:id="eventsMenu" layoutX="356.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" promptText="Events" />
-      <CheckBox fx:id="finishedChoosing" onAction="#finishChoosingCategory" layoutX="486.0" layoutY="197.0" mnemonicParsing="false" text="finished choosing" />
+      <CheckBox fx:id="finishedChoosing" layoutX="486.0" layoutY="197.0" mnemonicParsing="false" onAction="#finishChoosingCategory" text="finished choosing" />
+      <CheckBox fx:id="finishedChoosingEvent" layoutX="486.0" layoutY="219.0" mnemonicParsing="false" onAction="#finishChoosingEvent" text="finished choosing" />
    </children>
 </AnchorPane>

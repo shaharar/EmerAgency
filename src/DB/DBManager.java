@@ -197,14 +197,15 @@ public class DBManager {
         return true;
     }
 
-    public ArrayList<Permission> getPermissionsOfEvent (String username, int eventID) {
-        ArrayList<Permission> permissions = new ArrayList<>();
+    public ArrayList<String> getPermissionsOfEvent (String username, int eventID) {
+        ArrayList<String> permissions = new ArrayList<>();
         String sql = "SELECT * FROM Permissions WHERE username= '" + username + "' and eventId= '" + eventID + "'";
         try (Connection conn = this.connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                permissions.add(new Permission(rs.getString("username"),rs.getInt("eventId"),rs.getString("permission")));
+                //permissions.add(new Permission(rs.getString("username"),rs.getInt("eventId"),rs.getString("permission")));
+                permissions.add(rs.getString("permission"));
             }
             return permissions;
         } catch (SQLException e) {
