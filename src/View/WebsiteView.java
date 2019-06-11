@@ -19,7 +19,6 @@ public class View extends MainView implements Observer {
     public javafx.scene.control.Button btn_Create;
     public javafx.scene.control.Button btn_Watch;
     public javafx.scene.control.Button btn_CreateUpdate;
-   // public javafx.scene.control.Button btn_Edit;
     public javafx.scene.control.Button btn_LogOut;
     public javafx.scene.control.ComboBox categoryMenu;
 //    List<CheckMenuItem> categoryOptions = new ArrayList<>();
@@ -29,7 +28,7 @@ public class View extends MainView implements Observer {
     public javafx.scene.control.Label lbl_rank;
     public javafx.scene.control.CheckBox finishedChoosing;
     public javafx.scene.control.CheckBox finishedChoosingEvent;
-
+    public ArrayList<Integer> events = new ArrayList<>();
     public String uname;
 
     public void Init(String username,Controller controller, Stage stage){
@@ -50,8 +49,6 @@ public class View extends MainView implements Observer {
         final Tooltip tooltip2 = new Tooltip();
         tooltip2.setText("you can open this combo box, \nsee all events belonging to your \nchosen category and choose one");
         eventsMenu.setTooltip(tooltip2);
-/*        tooltip.setText("you can open this combo box, \nsee all events belonging to your \nchosen category and choose one");
-        eventsMenu.setTooltip(tooltip);*/
         btn_Watch.setDisable(true);
         btn_CreateUpdate.setDisable(true);
     }
@@ -73,25 +70,7 @@ public class View extends MainView implements Observer {
         controller = conection_layer;
     }
 
-//    public void logOut(){
-//        getStage().close();
-//        Stage stage = new Stage();
-//        stage.setTitle("Emer-Agency");
-//        FXMLLoader fxmlLoader = new FXMLLoader();
-//        try {
-//            Parent root = fxmlLoader.load(getClass().getResource("/login.fxml").openStream());
-//            Scene scene = new Scene(root, 600, 392);
-//            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-//            stage.setScene(scene);
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
-    public void create(){
+    public void createEvent(){
         getStage().close();
         Stage stage = new Stage();
         stage.setTitle("Emer-Agency");
@@ -139,21 +118,14 @@ public class View extends MainView implements Observer {
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             CreateUpdateView cuv = fxmlLoader.getController();
-            cuv.Init(uname, controller, stage);
+            int eventID = (int) eventsMenu.getValue();
+            cuv.Init(uname, controller, stage, eventID);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void edit(){
-//        if(eventIdToEdit.getText().equals("") || updateId.getText().equals("") || newContent.getText().equals("")) {
-//            showAlert("you must fill the fields of eventId, updateId and newContent");
-//            return;
-//        }
-//        controller.edit(titleEvent.getText(), firstUpdate.getText(), newContent.getText());
-//        showAlert("edit was successful");
-    }
 
     public void categoryOptions(){
         final Tooltip tooltip = new Tooltip();
@@ -165,6 +137,8 @@ public class View extends MainView implements Observer {
 
     public void finishChoosingCategory(){
         eventsMenu.setDisable(false);
+        events = new ArrayList<>();
+        eventsMenu.getItems().removeAll();
         eventsOptions();
     }
     public void finishChoosingEvent(){
@@ -173,8 +147,11 @@ public class View extends MainView implements Observer {
     }
 
     public void eventsOptions(){
+        final Tooltip tooltip = new Tooltip();
+        tooltip.setText("mark this check box only \nafter you have selected a \nevent and after this you \ncan watch or add update");
+        finishedChoosingEvent.setTooltip(tooltip);
         if(categoryMenu.getValue() != ""){
-            ArrayList<Integer> events = controller.getEvetnsByCategory((String) categoryMenu.getValue());
+            events = controller.getEvetnsByCategory((String) categoryMenu.getValue());
             eventsMenu.getItems().addAll(events);
         }
     }
