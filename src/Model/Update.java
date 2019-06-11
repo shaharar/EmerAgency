@@ -2,6 +2,7 @@ package Model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Update {
@@ -10,22 +11,23 @@ public class Update {
     private int eventId;
     private String username;
     private int orderId;
-    private Date publishDate;
+    private LocalDate publishDate;
     private Update lastUpdate;
 
-    public Update(String content, int eventId, String username, String publishDate) {
+    public Update(String content, int eventId, String username, LocalDate publishDate) {
         this.content = content;
         this.eventId = eventId;
         this.username = username;
         this.orderId = 1;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+/*        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         Date d = null;
         try {
             d = formatter.parse(publishDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        this.publishDate = d;
+        this.publishDate = d;*/
+        this.publishDate = publishDate;
         lastUpdate = new Update();
     }
 
@@ -68,7 +70,7 @@ public class Update {
         return orderId;
     }
 
-    public Date getPublishDate() {
+    public LocalDate getPublishDate() {
         return publishDate;
     }
 }

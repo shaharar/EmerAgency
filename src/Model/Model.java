@@ -68,8 +68,13 @@ public class Model extends Observable {
         return dbManager.getEvent(eventID);
     }
 
-    public ArrayList<Permission> getPermissionsOfEvent (String username, int eventID) {
-        return dbManager.getPermissionsOfEvent(username,eventID);
+    public ArrayList<String> getPermissionsOfEvent (String username, int eventID) {
+        ArrayList<Permission> permissions = dbManager.getPermissionsOfEvent(username,eventID);
+        ArrayList<String>  strPermissions = new ArrayList<>();
+        for (Permission p: permissions) {
+            strPermissions.add(p.getPermission());
+        }
+        return strPermissions;
     }
 
     public boolean createUpdate (Update update) {

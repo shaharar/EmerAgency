@@ -4,7 +4,11 @@ import Model.*;
 
 import java.sql.*;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DBManager {
 
@@ -96,7 +100,9 @@ public class DBManager {
         try (Connection conn = this.connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
-            Update up = new Update(rs.getString("content"), rs.getInt("eventId"), rs.getString("username"), rs.getString("publishDate"));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate date = LocalDate.parse(rs.getString("publishDate"), formatter);
+            Update up = new Update(rs.getString("content"), rs.getInt("eventId"), rs.getString("username"), date);
             up.setOrderId(rs.getInt("orderId"));
             up.setLastUpdate(rs.getString("lastUpdate"));
             return up;

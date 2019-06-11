@@ -1,21 +1,16 @@
 package Controller;
 
 import Model.Model;
-import View.View;
 import Model.User;
 import Model.Event;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.CheckMenuItem;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import java.io.IOException;
+import Model.Update;
+import Model.Permission;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Observer;
 
-public class Controller implements Observer {
+public class Controller extends Observable implements Observer {
 
     private Model model;
 
@@ -82,18 +77,23 @@ public class Controller implements Observer {
 
     public boolean createEvent(Event event){
         return model.createEvent(event);
-
     }
+
+    public boolean createUpdate(Update update){
+        return model.createUpdate(update);
+    }
+
     public Event watch(String uname, int eventId) throws ParseException {
-        if(model.getPermissionsOfEvent(uname, eventId).contains("read"))
+        ArrayList<String> permissions = model.getPermissionsOfEvent(uname, eventId);
+        if(permissions.contains("read"))
             return model.getEvent(eventId);
         else
             return null;
     }
 
-    public void edit(String eventId, String updateId, String newContent){
+/*    public void edit(String eventId, String updateId, String newContent){
 
-    }
+    }*/
 
 
     public void setModel(Model model) {
@@ -119,5 +119,6 @@ public class Controller implements Observer {
     public ArrayList<String> getUsersByOrg(String organization) {
         return model.getUsersByOrganization(organization);
     }
+
 
 }

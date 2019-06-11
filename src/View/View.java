@@ -18,7 +18,8 @@ public class View extends MainView implements Observer {
 
     public javafx.scene.control.Button btn_Create;
     public javafx.scene.control.Button btn_Watch;
-    public javafx.scene.control.Button btn_Edit;
+    public javafx.scene.control.Button btn_CreateUpdate;
+   // public javafx.scene.control.Button btn_Edit;
     public javafx.scene.control.Button btn_LogOut;
     public javafx.scene.control.ComboBox categoryMenu;
 //    List<CheckMenuItem> categoryOptions = new ArrayList<>();
@@ -46,13 +47,14 @@ public class View extends MainView implements Observer {
         tooltip.setText("you can open this combo box, \nsee all existing categories \nand select one");
         categoryMenu.setTooltip(tooltip);
         final Tooltip tooltip2 = new Tooltip();
-        tooltip.setText("you can open this combo box, \nsee all events belonging to your \nchosen category and choose one");
-        eventsMenu.setTooltip(tooltip);
+        tooltip2.setText("you can open this combo box, \nsee all events belonging to your \nchosen category and choose one");
+        eventsMenu.setTooltip(tooltip2);
     }
     @Override
     public void update(Observable o, Object arg) {
 
     }
+
 
     public void setMainStage(Stage stage) {
         this.MainStage = stage;
@@ -120,6 +122,24 @@ public class View extends MainView implements Observer {
 
     }
 
+    public void createUpdate(){
+        getStage().close();
+        Stage stage = new Stage();
+        stage.setTitle("Emer-Agency");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        try {
+            Parent root = fxmlLoader.load(getClass().getResource("/create_update.fxml").openStream());
+            Scene scene = new Scene(root, 754, 497);
+            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            CreateUpdateView cuv = fxmlLoader.getController();
+            cuv.Init(uname, controller, stage);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void edit(){
 //        if(eventIdToEdit.getText().equals("") || updateId.getText().equals("") || newContent.getText().equals("")) {
