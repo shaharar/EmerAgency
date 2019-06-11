@@ -62,6 +62,6 @@
       </ComboBox>
       <ComboBox fx:id="eventsMenu" layoutX="356.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" promptText="Events" />
       <CheckBox fx:id="finishedChoosing" layoutX="486.0" layoutY="197.0" mnemonicParsing="false" onAction="#finishChoosingCategory" text="finished choosing" />
-      <CheckBox fx:id="finishedChoosingEvent" layoutX="486.0" layoutY="219.0" mnemonicParsing="false" onAction="#finishChoosingEvent" text="finished choosing" />
+      <CheckBox fx:id="finishedChoosingEvent" layoutX="486.0" layoutY="229.0" mnemonicParsing="false" onAction="#finishChoosingEvent" text="finished choosing" />
    </children>
 </AnchorPane>
