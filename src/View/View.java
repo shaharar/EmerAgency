@@ -27,6 +27,7 @@ public class View extends MainView implements Observer {
     public javafx.scene.control.Label lbl_org;
     public javafx.scene.control.Label lbl_rank;
     public javafx.scene.control.CheckBox finishedChoosing;
+    public javafx.scene.control.CheckBox finishedChoosingEvent;
 
     public String uname;
 
@@ -48,6 +49,8 @@ public class View extends MainView implements Observer {
         final Tooltip tooltip2 = new Tooltip();
         tooltip.setText("you can open this combo box, \nsee all events belonging to your \nchosen category and choose one");
         eventsMenu.setTooltip(tooltip);
+        btn_Watch.setDisable(true);
+        btn_Edit.setDisable(true);
     }
     @Override
     public void update(Observable o, Object arg) {
@@ -141,6 +144,10 @@ public class View extends MainView implements Observer {
     public void finishChoosingCategory(){
         eventsMenu.setDisable(false);
         eventsOptions();
+    }
+    public void finishChoosingEvent(){
+        btn_Watch.setDisable(false);
+        btn_Edit.setDisable(false);
     }
 
     public void eventsOptions(){

@@ -68,7 +68,7 @@ public class Model extends Observable {
         return dbManager.getEvent(eventID);
     }
 
-    public ArrayList<Permission> getPermissionsOfEvent (String username, int eventID) {
+    public ArrayList<String> getPermissionsOfEvent (String username, int eventID) {
         return dbManager.getPermissionsOfEvent(username,eventID);
     }
 
