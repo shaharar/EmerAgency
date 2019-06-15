@@ -31,6 +31,7 @@ public abstract class MainView {
     }
 
     public void logOut(){
+        controller.logout();
         getStage().close();
         Stage stage = new Stage();
         stage.setTitle("Emer-Agency");

@@ -19,14 +19,6 @@ public class Update {
         this.eventId = eventId;
         this.username = username;
         this.orderId = 1;
-/*        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date d = null;
-        try {
-            d = formatter.parse(publishDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        this.publishDate = d;*/
         this.publishDate = publishDate;
         lastUpdate = new Update();
     }

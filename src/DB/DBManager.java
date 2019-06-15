@@ -56,11 +56,6 @@ public class DBManager {
         return users;
     }
 
-//    public User getUserInfo (String userId){
-//
-//        return null;
-//    }
-
 
     public ArrayList<Integer> getEventsByCategory (String categoryName) {
         ArrayList<Integer> events = new ArrayList<>();
@@ -100,7 +95,7 @@ public class DBManager {
         try (Connection conn = this.connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate date = LocalDate.parse(rs.getString("publishDate"), formatter);
             Update up = new Update(rs.getString("content"), rs.getInt("eventId"), rs.getString("username"), date);
             up.setOrderId(rs.getInt("orderId"));
@@ -234,7 +229,7 @@ public class DBManager {
 
     public String[] getLastUpdate(int eventId) {
         String[] updateInfo = new String[2];
-        String sql = "SELECT MAX(orderId) as maxOrder FROM Updates WHERE eventId= '" + eventId + "'";
+        String sql = "SELECT content, MAX(orderId) as maxOrder FROM Updates WHERE eventId= '" + eventId + "'";
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -247,6 +242,17 @@ public class DBManager {
         return null;
     }
 
+    public int getLastEventId() {
+        String sql = "SELECT MAX(id) as maxId FROM Events";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            return rs.getInt("maxId");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
 
     public Category getCategory (String topic){
         String sql = "SELECT * FROM Categories WHERE name= '" + topic + "'";

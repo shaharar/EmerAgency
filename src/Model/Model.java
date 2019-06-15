@@ -1,26 +1,22 @@
 package Model;
 
 import DB.DBManager;
-import View.View;
-import javafx.beans.InvalidationListener;
-import Controller.Controller;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Observable;
 
 
 public class Model extends Observable {
 
     private DBManager dbManager;
-    static int eventID = 0;
+    static int eventID;
     private String currUsername;
 
     public Model()
     {
         this.dbManager = new DBManager();
         this.currUsername = "";
+        eventID = dbManager.getLastEventId() + 1;
     }
 
     public ArrayList<String> getAllCategories() {
@@ -54,12 +50,6 @@ public class Model extends Observable {
         return false;
     }
 
-    public String getFirstUpdate(int eventId) throws ParseException {
-        Event e = getEvent(eventId);
-        //return e.getFirstUpdate().getContent();
-        return e.getFirstUpdate();
-    }
-
     public ArrayList<Integer> getEventsByCategory (String categoryName) {
         return dbManager.getEventsByCategory(categoryName);
     }
@@ -70,16 +60,9 @@ public class Model extends Observable {
 
     public ArrayList<String> getPermissionsOfEvent (String username, int eventID) {
         return dbManager.getPermissionsOfEvent(username,eventID);
-/*    public ArrayList<String> getPermissionsOfEvent (String username, int eventID) {
-        ArrayList<Permission> permissions = dbManager.getPermissionsOfEvent(username,eventID);
-        ArrayList<String>  strPermissions = new ArrayList<>();
-        for (Permission p: permissions) {
-            strPermissions.add(p.getPermission());
-        }
-        return strPermissions;
-    }*/
+    }
 
-    public boolean createUpdate (Update update) {
+    public boolean createUpdate(Update update) {
         String[] prevUpdate = dbManager.getLastUpdate(update.getEventId());
         int lastOrder = Integer.parseInt(prevUpdate[0]);
         String lastUpdate = prevUpdate[1];
@@ -93,11 +76,7 @@ public class Model extends Observable {
             currUsername = username;
             return true;
         }
-        else {
-            System.out.println("login failed");
-            return false;
-        }
-    //    return false;
+        return false;
     }
 
     public void logout() {
@@ -116,9 +95,13 @@ public class Model extends Observable {
         return dbManager.getRankOfUser(username);
     }
 
+    public String getFirstUpdate(int eventId) throws ParseException {
+        Event e = getEvent(eventId);
+        return e.getFirstUpdate();
+    }
 
     public static void main(String[] args) throws ParseException {
-        View view = new View();
+     //   WebsiteView view = new WebsiteView();
 //        Controller controller=new Controller(view);
 //        Model m = new Model(controller);
       //  ArrayList<String> categories = m.getAllCategories();

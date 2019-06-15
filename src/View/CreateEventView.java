@@ -14,11 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class CreateEventView extends MainView {
 
@@ -43,7 +40,7 @@ public class CreateEventView extends MainView {
         this.controller = controller;
         this.stage = stage;
         User user = controller.getUser(username);
-        lbl_user.setText("username: " + username);
+        lbl_user.setText("Username: " + username);
         lbl_org.setText("Organization: " + user.getOrganization().getName());
         lbl_rank.setText("Rank: " + user.getRank());
         fillStatus();
@@ -72,12 +69,17 @@ public class CreateEventView extends MainView {
 
     private boolean validation(){
         if(titleEvent.getText().equals("") || firstUpdate.getText().equals("")) {
-            showAlert("you must fill the fields of title and firstUpdate");
+            showAlert("You must fill the fields of title and firstUpdate");
             return false;
         }
 
-        if(FD.getValue().equals("") && PD.getValue().equals("") && MD.getValue().equals("")){
-            showAlert("you must choose at least one responsible");
+        if(FD.getValue() == null && PD.getValue() == null && MD.getValue() == null){
+            showAlert("You must choose at least one responsible user");
+            return false;
+        }
+
+        if((status.getValue()) == null){
+            showAlert("You must set the event status");
             return false;
         }
 
@@ -89,7 +91,7 @@ public class CreateEventView extends MainView {
             }
         }
         if(!check){
-            showAlert("you must choose at least one category");
+            showAlert("You must choose at least one category");
             return false;
         }
 
@@ -111,11 +113,11 @@ public class CreateEventView extends MainView {
         String firstUp = firstUpdate.getText();
         String status = (String)this.status.getValue();
         ArrayList<SecurityForceUser> responsibles = new ArrayList<>();
-        if (FD.getItems().size() != 0)
+        if (FD.getValue() != null)
             responsibles.add((SecurityForceUser) controller.getUser((String) FD.getValue()));
-        if (MD.getItems().size() != 0)
+        if (MD.getValue() != null)
             responsibles.add((SecurityForceUser)controller.getUser((String) MD.getValue()));
-        if (PD.getItems().size() != 0)
+        if (PD.getValue() != null)
             responsibles.add((SecurityForceUser)controller.getUser((String) PD.getValue()));
         Event newEvent = new Event(title, categories, date, status, firstUp, responsibles);
         controller.createEvent(newEvent);
@@ -133,7 +135,7 @@ public class CreateEventView extends MainView {
             scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
-            View website = fxmlLoader.getController();
+            WebsiteView website = fxmlLoader.getController();
             website.Init(uname, controller, stage);
             stage.show();
         } catch (IOException e) {

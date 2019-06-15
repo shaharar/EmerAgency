@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="460.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.View">
+<AnchorPane prefHeight="460.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.WebsiteView">
    <children>
       <ImageView fitHeight="77.0" fitWidth="87.0" layoutX="7.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -21,7 +21,7 @@
             <Image url="@155994848127060913.png" />
          </image>
       </ImageView>
-      <Button fx:id="btn_Create" layoutX="240.0" layoutY="126.0" mnemonicParsing="false" onAction="#create" prefHeight="39.0" prefWidth="198.0" text="Create New Event">
+      <Button fx:id="btn_Create" layoutX="240.0" layoutY="126.0" mnemonicParsing="false" onAction="#createEvent" prefHeight="39.0" prefWidth="198.0" text="Create New Event">
          <font>
             <Font name="Georgia Bold" size="18.0" />
          </font></Button>
@@ -29,7 +29,7 @@
          <font>
             <Font name="Georgia Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="btn_Edit" layoutX="257.0" layoutY="321.0" mnemonicParsing="false" onAction="#createUpdate" prefHeight="33.0" prefWidth="142.0" text="Add Update">
+      <Button fx:id="btn_CreateUpdate" layoutX="257.0" layoutY="321.0" mnemonicParsing="false" onAction="#createUpdate" prefHeight="33.0" prefWidth="142.0" text="Add Update">
          <font>
             <Font name="Georgia Bold" size="18.0" />
          </font></Button>

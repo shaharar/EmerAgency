@@ -37,7 +37,7 @@ public class Event {
         this.id = id;
         this.title = title;
         this.categories = categories;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         //LocalDate d = formatter.format(date);
         this.date = LocalDate.parse(date, formatter);
         this.postedBy = postedBy;
@@ -58,24 +58,12 @@ public class Event {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public ArrayList<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
-        this.categories = categories;
-    }
-
     public LocalDate getDate() {
         return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public String getPostedBy() {
@@ -88,10 +76,6 @@ public class Event {
 
     public String getFirstUpdate() {
         return firstUpdate;
-    }
-
-    public void setFirstUpdate(String firstUpdate) {
-        this.firstUpdate = firstUpdate;
     }
 
     public EventStatus getStatus() {

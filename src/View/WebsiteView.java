@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
-public class View extends MainView implements Observer {
+public class WebsiteView extends MainView implements Observer {
 
     public javafx.scene.control.Button btn_Create;
     public javafx.scene.control.Button btn_Watch;

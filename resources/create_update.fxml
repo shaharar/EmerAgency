@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -29,7 +26,7 @@
             <Font name="Georgia Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_org" layoutX="573.0" layoutY="31.0" prefHeight="17.0" prefWidth="175.0" text="Organozation:">
+      <Label fx:id="lbl_org" layoutX="573.0" layoutY="31.0" prefHeight="17.0" prefWidth="175.0" text="Organization:">
          <font>
             <Font name="Georgia Bold" size="12.0" />
          </font>
@@ -39,7 +36,7 @@
             <Font name="Georgia Bold" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="btn_LogOut" layoutX="626.0" layoutY="65.0" mnemonicParsing="false" onAction="#logOut" text="Log Out" textFill="#e35d12">
+      <Button fx:id="btn_LogOut" layoutX="639.0" layoutY="75.0" mnemonicParsing="false" onAction="#logOut" text="Log Out" textFill="#e35d12">
          <font>
             <Font name="Georgia Bold" size="12.0" />
          </font>
@@ -49,24 +46,26 @@
          <font>
             <Font name="Georgia Bold" size="12.0" />
          </font></Button>
-      <Label layoutX="153.0" layoutY="129.0" prefHeight="23.0" prefWidth="133.0" text="Content:">
+      <Label layoutX="220.0" layoutY="226.0" prefHeight="44.0" prefWidth="74.0" text="Update Content:" wrapText="true">
          <font>
             <Font name="Georgia Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="153.0" layoutY="157.0" prefHeight="23.0" prefWidth="133.0" text="Date:">
+      <Label layoutX="220.0" layoutY="157.0" prefHeight="23.0" prefWidth="74.0" text="Date:">
          <font>
             <Font name="Georgia Bold" size="15.0" />
          </font>
       </Label>
-      <DatePicker fx:id="date" layoutX="294.0" layoutY="156.0" prefHeight="25.0" prefWidth="149.0" />
-      <TextArea fx:id="updateContent" layoutX="295.0" layoutY="220.0" prefHeight="72.0" prefWidth="193.0" />
-      <Button fx:id="btn_create" layoutX="332.0" layoutY="393.0" mnemonicParsing="false" onAction="#createUpdate" prefHeight="32.0" prefWidth="85.0" text="Create">
+      <DatePicker fx:id="date" layoutX="294.0" layoutY="156.0" prefHeight="25.0" prefWidth="193.0" />
+      <TextArea fx:id="updateContent" layoutX="295.0" layoutY="203.0" prefHeight="89.0" prefWidth="193.0" />
+      <Button fx:id="btn_create" layoutX="312.0" layoutY="315.0" mnemonicParsing="false" onAction="#createUpdate" prefHeight="33.0" prefWidth="157.0" text="Create Update">
          <font>
             <Font name="Georgia Bold" size="18.0" />
          </font></Button>
-      <ComboBox fx:id="FD" layoutX="295.0" layoutY="339.0" prefHeight="25.0" prefWidth="108.0" promptText="FD" />
-      <ComboBox fx:id="MD" layoutX="528.0" layoutY="339.0" prefHeight="25.0" prefWidth="108.0" promptText="MD" />
-      <ComboBox fx:id="PD" layoutX="411.0" layoutY="339.0" prefHeight="25.0" prefWidth="108.0" promptText="PD" />
+      <Label fx:id="lbl_event" layoutX="220.0" layoutY="117.0" prefHeight="23.0" prefWidth="166.0" text="Event Id:">
+         <font>
+            <Font name="Georgia Bold" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

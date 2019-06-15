@@ -4,7 +4,6 @@ import Model.Model;
 import Model.User;
 import Model.Event;
 import Model.Update;
-import Model.Permission;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -13,9 +12,6 @@ import java.util.Observer;
 public class Controller extends Observable implements Observer {
 
     private Model model;
-
-//    public HashSet<String> categories;
-
 
     public Controller() {
         this.model = new Model();
@@ -52,25 +48,6 @@ public class Controller extends Observable implements Observer {
 //        }
     }
 
-//    public void openwindow(String fxmlfile, Object Parameter) {
-//        FXMLLoader fxmlLoader = new FXMLLoader();
-//        Parent root = null;
-//        try {
-//            root = fxmlLoader.load(getClass().getClassLoader().getResource(fxmlfile).openStream());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Stage newStage = new Stage();
-//        Scene scene = new Scene(root, 600, 457);
-//        newStage.setScene(scene);
-//
-//        View NewWindow = fxmlLoader.getController();
-//        // NewWindow.setStage(newStage);
-//        NewWindow.setController(this);
-//        newStage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-//        newStage.show();
-//    }
-
     public boolean login(String username, String password) {
         return  (model.login(username, password));
     }
@@ -85,28 +62,18 @@ public class Controller extends Observable implements Observer {
 
     public Event watch(String uname, int eventId) throws ParseException {
         ArrayList<String> permissions = model.getPermissionsOfEvent(uname, eventId);
-        if(permissions.contains("read"))
-            return model.getEvent(eventId);
-        else
-            return null;
+        if(!model.getOrganizationOfUser(uname).equals("SD")){
+            if(!permissions.contains("read")) {
+                return null;
+            }
+        }
+        return model.getEvent(eventId);
     }
-
-/*    public void edit(String eventId, String updateId, String newContent){
-
-    }*/
 
 
     public void setModel(Model model) {
         this.model = model;
     }
-
-//    public String getOrganizationOfUser(String username) {
-//        return model.getOrganizationOfUser(username);
-//    }
-//
-//    public int getRankOfUser(String username) {
-//        return model.getRankOfUser(username);
-//    }
 
     public User getUser(String username) {
         return model.getUser(username);
@@ -121,4 +88,7 @@ public class Controller extends Observable implements Observer {
     }
 
 
+    public void logout() {
+        model.logout();
+    }
 }

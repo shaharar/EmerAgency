@@ -60,7 +60,7 @@ public class LoginView {
                 scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
-                View website = fxmlLoader.getController();
+                WebsiteView website = fxmlLoader.getController();
                 website.Init(userId.getText(), controller, stage);
                 stage.show();
             } catch (IOException e) {
