@@ -12,8 +12,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Model model = new Model();
-        Controller controller = new Controller();
+        Model model = Model.getInstance();
+        Controller controller = Controller.getInstance();
         controller.setModel(model);
         FXMLLoader fxm = new FXMLLoader();
         Parent root = fxm.load(getClass().getResource("/login.fxml").openStream());

@@ -9,16 +9,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="460.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.WebsiteView">
+<AnchorPane prefHeight="460.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.WebsiteView">
    <children>
       <ImageView fitHeight="77.0" fitWidth="87.0" layoutX="7.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@logo.png" />
+            <Image url="logo.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="574.0" fitWidth="460.0" layoutX="185.0" layoutY="1.0" opacity="0.58" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@155994848127060913.png" />
+            <Image url="155994848127060913.png" />
          </image>
       </ImageView>
       <Button fx:id="btn_Create" layoutX="240.0" layoutY="126.0" mnemonicParsing="false" onAction="#createEvent" prefHeight="39.0" prefWidth="198.0" text="Create New Event">
@@ -63,5 +63,10 @@
       <ComboBox fx:id="eventsMenu" layoutX="356.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" promptText="Events" />
       <CheckBox fx:id="finishedChoosing" layoutX="486.0" layoutY="197.0" mnemonicParsing="false" onAction="#finishChoosingCategory" text="finished choosing" />
       <CheckBox fx:id="finishedChoosingEvent" layoutX="486.0" layoutY="229.0" mnemonicParsing="false" onAction="#finishChoosingEvent" text="finished choosing" />
+      <Button fx:id="btn_Reset" layoutX="628.0" layoutY="213.0" mnemonicParsing="false" onAction="#resetChoosing" prefHeight="23.0" prefWidth="65.0" text="Reset" textFill="#060000">
+         <font>
+            <Font name="Georgia Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

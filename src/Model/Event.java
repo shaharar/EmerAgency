@@ -24,8 +24,6 @@ public class Event {
     public Event(String title, ArrayList<Category> categories, LocalDate date, String status, String firstUpdate, ArrayList<SecurityForceUser> responsibleUsers) throws ParseException {
         this.title = title;
         this.categories = categories;
-        //SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        //Date d = formatter.parse(date);
         this.date = date;
         this.postedBy = "";
         this.firstUpdate = firstUpdate;
@@ -38,7 +36,6 @@ public class Event {
         this.title = title;
         this.categories = categories;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //LocalDate d = formatter.format(date);
         this.date = LocalDate.parse(date, formatter);
         this.postedBy = postedBy;
         this.firstUpdate = firstUp;
@@ -80,10 +77,6 @@ public class Event {
 
     public EventStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(EventStatus status) {
-        this.status = status;
     }
 
     public ArrayList<SecurityForceUser> getResponsibleUsers() {

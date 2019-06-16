@@ -16,12 +16,12 @@
    <children>
       <ImageView fitHeight="76.0" fitWidth="85.0" layoutX="7.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@logo.png" />
+            <Image url="logo.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="574.0" fitWidth="460.0" layoutX="185.0" layoutY="1.0" opacity="0.58" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@155994848127060913.png" />
+            <Image url="155994848127060913.png" />
          </image>
       </ImageView>
       <Label fx:id="lbl_user" layoutX="573.0" layoutY="14.0" prefHeight="17.0" prefWidth="157.0" text="Username: ">

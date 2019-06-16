@@ -6,46 +6,25 @@ import Model.Event;
 import Model.Update;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
-public class Controller extends Observable implements Observer {
+public class Controller {
 
+    private static Controller myController = null;
     private Model model;
 
-    public Controller() {
-        this.model = new Model();
+    private Controller() {
+        this.model = Model.getInstance();
+    }
+
+    public static Controller getInstance() {
+        if (myController == null){
+            myController = new Controller();
+        }
+        return myController;
     }
 
     public ArrayList<String> getCategories() {
         return model.getAllCategories();
-    }
-
-    @Override
-    public void update(java.util.Observable o, Object arg) {
-//        try{
-//            Object obj = ((Object[])arg)[0];
-//            String str = (String)obj;
-//            switch(str){
-//                case "create vacation failed":
-//                    showAlert("Create Vacation Failed", "Create vacation failed, please try again.");
-//                    break;
-//
-//                case "create vacation succeeded":
-//                    //openRud(txt_id_user.getText());
-//                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//                    alert.setTitle("Create Vacation Succeeded");
-//                    Optional<ButtonType> reasult = alert.showAndWait();
-//                    if(reasult.get() == ButtonType.OK)
-//                        alert.close();
-//                    Stage prim = (Stage) txt_title.getScene().getWindow();
-//                    prim.close();
-//                    break;
-//
-//            }
-//        } catch (Exception e){
-//
-//        }
     }
 
     public boolean login(String username, String password) {
@@ -86,7 +65,6 @@ public class Controller extends Observable implements Observer {
     public ArrayList<String> getUsersByOrg(String organization) {
         return model.getUsersByOrganization(organization);
     }
-
 
     public void logout() {
         model.logout();

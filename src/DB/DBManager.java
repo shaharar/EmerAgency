@@ -12,6 +12,18 @@ import java.util.Date;
 
 public class DBManager {
 
+    private static DBManager myDBManager = null;
+
+    private DBManager() {
+    }
+
+    public static DBManager getInstance() {
+        if (myDBManager == null){
+            myDBManager = new DBManager();
+        }
+        return myDBManager;
+    }
+
     private Connection connect() {
         // SQLite connection string
         String url = "jdbc:sqlite:resources\\db.db";
@@ -152,6 +164,8 @@ public class DBManager {
             pstmt.setString(5, event.getFirstUpdate());
             pstmt.setString(6, event.getStatus().toString());
             pstmt.executeUpdate();
+            Update firstUp = new Update(event.getFirstUpdate(),event.getId(),event.getPostedBy(),event.getDate());
+            addUpdate(firstUp);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;

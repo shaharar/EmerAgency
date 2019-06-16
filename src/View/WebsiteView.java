@@ -2,7 +2,6 @@ package View;
 
 import Controller.Controller;
 import Model.Event;
-import Model.Organization;
 import Model.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,14 +13,14 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
-public class WebsiteView extends MainView implements Observer {
+public class WebsiteView extends MainView {
 
     public javafx.scene.control.Button btn_Create;
     public javafx.scene.control.Button btn_Watch;
+    public javafx.scene.control.Button btn_Reset;
     public javafx.scene.control.Button btn_CreateUpdate;
     public javafx.scene.control.Button btn_LogOut;
     public javafx.scene.control.ComboBox categoryMenu;
-//    List<CheckMenuItem> categoryOptions = new ArrayList<>();
     public javafx.scene.control.ComboBox eventsMenu;
     public javafx.scene.control.Label lbl_user;
     public javafx.scene.control.Label lbl_org;
@@ -44,27 +43,14 @@ public class WebsiteView extends MainView implements Observer {
         eventsMenu.setDisable(true);
         categoryOptions();
         final Tooltip tooltip = new Tooltip();
-        tooltip.setText("you can open this combo box, \nsee all existing categories \nand select one");
+        tooltip.setText("You can open this combo box, \nsee all existing categories \nand select one");
         categoryMenu.setTooltip(tooltip);
         final Tooltip tooltip2 = new Tooltip();
-        tooltip2.setText("you can open this combo box, \nsee all events belonging to your \nchosen category and choose one");
+        tooltip2.setText("You can open this combo box, \nsee all events belonging to your \nchosen category and choose one");
         eventsMenu.setTooltip(tooltip2);
         btn_Watch.setDisable(true);
         btn_CreateUpdate.setDisable(true);
     }
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
-
-
-    public void setMainStage(Stage stage) {
-        this.MainStage = stage;
-    }
-
-    public void setStage(Stage stage){
-        this.stage = stage;
-    };
 
     public void setController(Controller conection_layer){
         controller = conection_layer;
@@ -92,18 +78,17 @@ public class WebsiteView extends MainView implements Observer {
 
     public void watch() throws ParseException {
         if(eventsMenu.getValue().equals("")) {
-            showAlert("you must choose any event");
+            showAlert("You must choose any event");
             return;
         }
         else {
             Event e = controller.watch(uname, (int) eventsMenu.getValue());
             if(e == null)
-                showAlert("You don't have permission to view this event");
+                showAlert("You don't have a permission to view this event");
             else
-                showAlert("id: " + e.getId() + "\ntitle: " + e.getTitle() + "\npublish date: " + e.getDate() +
-                        "\nposted by: " + e.getPostedBy() + "\nfirst update: " + e.getFirstUpdate() + "\nstatus: " + e.getStatus());
+                showAlert("Event Id: " + e.getId() + "\nTitle: " + e.getTitle() + "\nPublish Date: " + e.getDate() +
+                        "\nPosted By: " + e.getPostedBy() + "\nFirst Update: " + e.getFirstUpdate() + "\nStatus: " + e.getStatus());
         }
-
     }
 
     public void createUpdate(){
@@ -144,6 +129,17 @@ public class WebsiteView extends MainView implements Observer {
     public void finishChoosingEvent(){
         btn_Watch.setDisable(false);
         btn_CreateUpdate.setDisable(false);
+    }
+
+    public void resetChoosing(){
+        finishedChoosing.setSelected(false);
+        finishedChoosingEvent.setSelected(false);
+        btn_Watch.setDisable(true);
+        btn_CreateUpdate.setDisable(true);
+        categoryMenu.setValue("Categories");
+        eventsMenu.setValue("Events");
+        eventsMenu.setDisable(true);
+        eventsMenu.getItems().clear();
     }
 
     public void eventsOptions(){

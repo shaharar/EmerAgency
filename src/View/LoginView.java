@@ -15,7 +15,6 @@ public class LoginView {
 
     public javafx.scene.control.Button btn_login;
     public javafx.scene.control.TextField userId;
-    //public javafx.scene.control.TextField password;
     public PasswordField password = new PasswordField();
 
     static Controller controller;

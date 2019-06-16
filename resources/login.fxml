@@ -8,13 +8,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <?import javafx.scene.control.PasswordField?>
 <AnchorPane prefHeight="392.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginView">
    <children>
       <ImageView fitHeight="240.0" fitWidth="259.0" layoutX="171.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@logo.png" />
+            <Image url="logo.png" />
          </image>
       </ImageView>
       <Button fx:id="btn_login" layoutX="253.0" layoutY="151.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="79.0" text="Login" textFill="#151515" onAction="#login">
